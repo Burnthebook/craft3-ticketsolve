@@ -1,0 +1,40 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Ticketsolve plugin for Craft CMS 3.x
+ *
+ * Ticketsolve index.twig
+ *
+ * @author    Dimitar Kokov
+ * @copyright Copyright (c) 2019 Dimitar Kokov
+ * @link      https://github.com/devkokov
+ * @package   Ticketsolve
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("devkokov\\ticketsolve\\assetbundles\\ticketsolve\\TicketsolveAsset") %}
+{% do view.registerAssetBundle("devkokov\\ticketsolve\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/devkokov/ticketsolve/blob/master/README.md" %}
+
+{% set title = "Ticketsolve" %}
+
+{% set pluginCpUrl = url('ticketsolve') %}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@devkokov/ticketsolve/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('ticketsolve') }}</a>
+    </div>
+{% endset %}
+
+{% set content %}
+    <h2>{{ "Index CP Section body goes here"|t('ticketsolve') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}

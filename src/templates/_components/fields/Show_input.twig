@@ -1,0 +1,24 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Ticketsolve plugin for Craft CMS 3.x
+ *
+ * Show Field Input
+ *
+ * @author    Dimitar Kokov
+ * @copyright Copyright (c) 2019 Dimitar Kokov
+ * @link      https://github.com/devkokov
+ * @package   Ticketsolve
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+        label: 'Some Field',
+        instructions: 'Enter some text here.',
+        id: name,
+        name: name,
+        value: value})
+}}

@@ -1,0 +1,43 @@
+{
+    "name": "devkokov/craft3-ticketsolve",
+    "description": "Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "ticketsolve"
+    ],
+    "support": {
+        "docs": "https://github.com/devkokov/ticketsolve/blob/master/README.md",
+        "issues": "https://github.com/devkokov/ticketsolve/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dimitar Kokov",
+            "homepage": "https://github.com/devkokov"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "devkokov\\ticketsolve\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Ticketsolve",
+        "handle": "ticketsolve",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/devkokov/ticketsolve/master/CHANGELOG.md",
+        "components": {
+            "ticketsolveService": "devkokov\\ticketsolve\\services\\TicketsolveService"
+        },
+        "class": "devkokov\\ticketsolve\\Ticketsolve"
+    }
+}
