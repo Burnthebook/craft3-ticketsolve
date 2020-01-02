@@ -68,6 +68,14 @@ class Ticketsolve extends Plugin
     // =========================================================================
 
     /**
+     * @return Settings
+     */
+    public function getSettings()
+    {
+        return parent::getSettings();
+    }
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -204,14 +212,6 @@ class Ticketsolve extends Plugin
                 'settings' => $this->getSettings()
             ]
         );
-    }
-
-    /**
-     * @return Settings
-     */
-    public function getSettings()
-    {
-        return parent::getSettings();
     }
 
     // Private Methods

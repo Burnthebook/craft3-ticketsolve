@@ -27,7 +27,7 @@
 
 {{ forms.lightswitchField({
     label: 'Auto Sync'|t('ticketsolve'),
-    instructions: 'Automatically sync with the XML feed approximately every 15 minutes.'|t('ticketsolve'),
+    instructions: 'Automatically sync from the XML feed.'|t('ticketsolve') ~ ' ' ~ 'Sync interval'|t('ticketsolve') ~ ': ' ~ (settings['syncDelay'] / 60) ~ ' ' ~ 'minutes'|t('ticketsolve'),
     id: 'autoSync',
     name: 'autoSync',
     on: settings['autoSync'],
