@@ -16,6 +16,10 @@
 return [
     'Ticketsolve plugin loaded' => 'Ticketsolve plugin loaded',
     'Ticketsolve Sync Job' => 'Ticketsolve Sync Job',
+    'URL' => 'URL',
+    'Enter the URL to your Ticketsolve XML feed.' => 'Enter the URL to your Ticketsolve XML feed.',
+    'Auto Sync' => 'Auto Sync',
+    'Automatically sync with the XML feed approximately every 15 minutes.' => 'Automatically sync with the XML feed approximately every 15 minutes.',
     'Name' => 'Name',
     'Venue' => 'Venue',
     'Venues' => 'Venues',

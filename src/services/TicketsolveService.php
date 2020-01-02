@@ -25,9 +25,9 @@ class TicketsolveService extends Component
     // Public Methods
     // =========================================================================
 
-    public function parseXML()
+    public function syncFromXML()
     {
-        $url = Ticketsolve::$plugin->getSettings()->xmlUrl;
+        $url = Ticketsolve::getInstance()->getSettings()->xmlUrl;
 
         $xml = simplexml_load_file($url);
 

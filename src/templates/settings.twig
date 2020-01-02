@@ -18,9 +18,18 @@
 {% do view.registerAssetBundle("devkokov\\ticketsolve\\assetbundles\\ticketsolve\\TicketsolveAsset") %}
 
 {{ forms.textField({
-    label: 'URL',
-    instructions: 'Enter the URL to your Ticketsolve XML feed.',
+    label: 'URL'|t('ticketsolve'),
+    instructions: 'Enter the URL to your Ticketsolve XML feed.'|t('ticketsolve'),
     id: 'xmlUrl',
     name: 'xmlUrl',
     value: settings['xmlUrl']})
+}}
+
+{{ forms.lightswitchField({
+    label: 'Auto Sync'|t('ticketsolve'),
+    instructions: 'Automatically sync with the XML feed approximately every 15 minutes.'|t('ticketsolve'),
+    id: 'autoSync',
+    name: 'autoSync',
+    on: settings['autoSync'],
+    value: 1})
 }}

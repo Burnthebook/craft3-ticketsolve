@@ -22,14 +22,6 @@ use craft\queue\BaseJob;
  */
 class SyncJob extends BaseJob
 {
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $someAttribute = 'Some Default';
-
     // Public Methods
     // =========================================================================
 
@@ -38,7 +30,7 @@ class SyncJob extends BaseJob
      */
     public function execute($queue)
     {
-        Ticketsolve::$plugin->ticketsolveService->parseXML();
+        Ticketsolve::getInstance()->ticketsolveService->syncFromXML();
     }
 
     public static function getDefaultDescription(): string
