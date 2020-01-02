@@ -30,6 +30,7 @@ use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 
+use devkokov\ticketsolve\twig\CraftVariableBehavior;
 use yii\base\Event;
 use yii\queue\ExecEvent;
 

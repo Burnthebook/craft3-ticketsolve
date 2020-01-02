@@ -1,5 +1,5 @@
 <?php
-namespace devkokov\ticketsolve;
+namespace devkokov\ticketsolve\twig;
 
 use Craft;
 use devkokov\ticketsolve\elements\db\VenueQuery;
