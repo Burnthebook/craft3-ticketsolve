@@ -10,6 +10,7 @@
 
 namespace devkokov\ticketsolve;
 
+use craft\web\twig\variables\CraftVariable;
 use devkokov\ticketsolve\services\TicketsolveService as TicketsolveServiceService;
 use devkokov\ticketsolve\models\Settings;
 use devkokov\ticketsolve\elements\Venue as VenueElement;
@@ -105,8 +106,37 @@ class Ticketsolve extends Plugin
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function (PluginEvent $event) {
-                if ($event->plugin === $this) {
+                if ($event->plugin !== $this) {
+                    return;
                 }
+
+                // add the initial sync job to the queue and chain subsequent sync jobs
+            }
+        );
+
+        Event:on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_UNINSTALL_PLUGIN,
+            function (PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    return;
+                }
+
+                // remove any schedule sync jobs
+            }
+        );
+
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $e) {
+                /** @var CraftVariable $variable */
+                $variable = $e->sender;
+
+                // Attach a behavior:
+                $variable->attachBehaviors([
+                    CraftVariableBehavior::class,
+                ]);
             }
         );
 

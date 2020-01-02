@@ -16,4 +16,7 @@
 return [
     'Ticketsolve plugin loaded' => 'Ticketsolve plugin loaded',
     'Ticketsolve Sync Task' => 'Ticketsolve Sync Task',
+    'Name' => 'Name',
+    'Venue' => 'Venue',
+    'Venues' => 'Venues',
 ];
