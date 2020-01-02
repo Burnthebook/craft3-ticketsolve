@@ -20,7 +20,7 @@ use craft\queue\BaseJob;
  * @package   Ticketsolve
  * @since     1.0.0
  */
-class TicketsolveTask extends BaseJob
+class SyncJob extends BaseJob
 {
     // Public Properties
     // =========================================================================
@@ -38,7 +38,12 @@ class TicketsolveTask extends BaseJob
      */
     public function execute($queue)
     {
-        // Do work here
+        Ticketsolve::$plugin->ticketsolveService->parseXML();
+    }
+
+    public static function getDefaultDescription(): string
+    {
+        return Craft::t('ticketsolve', 'Ticketsolve Sync Job');
     }
 
     // Protected Methods
@@ -49,6 +54,6 @@ class TicketsolveTask extends BaseJob
      */
     protected function defaultDescription(): string
     {
-        return Craft::t('ticketsolve', 'Ticketsolve Sync Task');
+        return self::getDefaultDescription();
     }
 }

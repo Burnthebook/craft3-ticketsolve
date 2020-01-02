@@ -15,7 +15,7 @@
  */
 return [
     'Ticketsolve plugin loaded' => 'Ticketsolve plugin loaded',
-    'Ticketsolve Sync Task' => 'Ticketsolve Sync Task',
+    'Ticketsolve Sync Job' => 'Ticketsolve Sync Job',
     'Name' => 'Name',
     'Venue' => 'Venue',
     'Venues' => 'Venues',

@@ -25,16 +25,12 @@ class TicketsolveService extends Component
     // Public Methods
     // =========================================================================
 
-    /*
-     * @return mixed
-     */
-    public function exampleService()
+    public function parseXML()
     {
-        $result = 'something';
-        // Check our Plugin's settings for `someAttribute`
-        if (Ticketsolve::$plugin->getSettings()->someAttribute) {
-        }
+        $url = Ticketsolve::$plugin->getSettings()->xmlUrl;
 
-        return $result;
+        $xml = simplexml_load_file($url);
+
+        print_r($xml);
     }
 }

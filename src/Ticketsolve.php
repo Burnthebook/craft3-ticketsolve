@@ -10,7 +10,9 @@
 
 namespace devkokov\ticketsolve;
 
+use craft\queue\Queue;
 use craft\web\twig\variables\CraftVariable;
+use devkokov\ticketsolve\jobs\SyncJob;
 use devkokov\ticketsolve\services\TicketsolveService as TicketsolveServiceService;
 use devkokov\ticketsolve\models\Settings;
 use devkokov\ticketsolve\elements\Venue as VenueElement;
@@ -29,6 +31,7 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 
 use yii\base\Event;
+use yii\queue\ExecEvent;
 
 /**
  * Class Ticketsolve
@@ -102,6 +105,7 @@ class Ticketsolve extends Plugin
             }
         );
 
+        // queue the initial sync job after installing the plugin
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
@@ -110,11 +114,19 @@ class Ticketsolve extends Plugin
                     return;
                 }
 
-                // add the initial sync job to the queue and chain subsequent sync jobs
+                Craft::$app->queue->push(new SyncJob());
             }
         );
 
-        Event:on(
+        // queue subsequent sync jobs
+        Craft::$app->queue->on(Queue::EVENT_AFTER_EXEC, function ($event) {
+            /** @var ExecEvent $event */
+            if ($event->job instanceof SyncJob) {
+                $event->sender->delay(15 * 60)->push(new SyncJob());
+            }
+        });
+
+        Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_UNINSTALL_PLUGIN,
             function (PluginEvent $event) {
@@ -122,7 +134,12 @@ class Ticketsolve extends Plugin
                     return;
                 }
 
-                // remove any schedule sync jobs
+                // remove any scheduled sync jobs
+                foreach (Craft::$app->queue->getJobInfo() as $job) {
+                    if ($job['description'] === SyncJob::getDefaultDescription()) {
+                        Craft::$app->queue->release($job['id']);
+                    }
+                }
             }
         );
 
@@ -172,5 +189,13 @@ class Ticketsolve extends Plugin
                 'settings' => $this->getSettings()
             ]
         );
+    }
+
+    /**
+     * @return Settings
+     */
+    public function getSettings()
+    {
+        return parent::getSettings();
     }
 }
