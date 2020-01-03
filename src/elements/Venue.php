@@ -11,10 +11,7 @@
 namespace devkokov\ticketsolve\elements;
 
 use Craft;
-use craft\base\Element;
-use craft\db\Query;
 use craft\elements\db\ElementQueryInterface;
-use craft\helpers\ArrayHelper;
 use devkokov\ticketsolve\elements\db\VenueQuery;
 
 /**
@@ -22,7 +19,7 @@ use devkokov\ticketsolve\elements\db\VenueQuery;
  * @package   Ticketsolve
  * @since     1.0.0
  */
-class Venue extends Element
+class Venue extends AbstractComparableElement
 {
     // Public Properties
     // =========================================================================
@@ -72,6 +69,11 @@ class Venue extends Element
     }
 
     protected static function defineSearchableAttributes(): array
+    {
+        return ['venueRef','name'];
+    }
+
+    protected static function defineComparableAttributes(): array
     {
         return ['venueRef','name'];
     }

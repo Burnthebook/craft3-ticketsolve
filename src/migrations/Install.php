@@ -11,10 +11,11 @@ class Install extends Migration
         if (!$this->db->tableExists('{{%ticketsolve_venues}}')) {
             $this->createTable('{{%ticketsolve_venues}}', [
                 'id' => $this->integer()->notNull(),
-                'venueRef' => $this->bigInteger()->notNull(),
+                'venueRef' => $this->bigInteger()->notNull()->unique(),
                 'name' => $this->char(255)->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
+                'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
 
@@ -34,7 +35,7 @@ class Install extends Migration
             $this->createTable('{{%ticketsolve_shows}}', [
                 'id' => $this->integer()->notNull(),
                 'venueId' => $this->integer()->notNull(),
-                'showRef' => $this->bigInteger()->notNull(),
+                'showRef' => $this->bigInteger()->notNull()->unique(),
                 'name' => $this->char(255)->notNull(),
                 'description' => $this->text()->notNull(),
                 'eventCategory' => $this->char(255)->notNull(),
@@ -45,6 +46,7 @@ class Install extends Migration
                 'imagesJson' => $this->text()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
+                'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
 
@@ -77,6 +79,7 @@ class Install extends Migration
                 'name' => $this->char(255)->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
+                'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
         }
@@ -88,6 +91,7 @@ class Install extends Migration
                 'showId' => $this->integer()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
+                'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
 

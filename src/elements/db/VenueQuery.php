@@ -9,6 +9,7 @@ class VenueQuery extends ElementQuery
 {
     public $venueRef;
     public $name;
+    public $excludeVenueRefs = [];
 
     public function venueRef($value)
     {
@@ -20,6 +21,13 @@ class VenueQuery extends ElementQuery
     public function name($value)
     {
         $this->name = $value;
+
+        return $this;
+    }
+
+    public function excludeVenueRefs(array $venueRefs)
+    {
+        $this->excludeVenueRefs = $venueRefs;
 
         return $this;
     }
@@ -39,6 +47,10 @@ class VenueQuery extends ElementQuery
 
         if ($this->name) {
             $this->subQuery->andWhere(Db::parseParam('ticketsolve_venues.name', $this->name));
+        }
+
+        if ($this->excludeVenueRefs) {
+            $this->subQuery->andWhere(['not in', 'ticketsolve_venues.venueRef', $this->excludeVenueRefs]);
         }
 
         return parent::beforePrepare();
