@@ -7,22 +7,14 @@ use craft\helpers\Db;
 
 class ShowQuery extends ElementQuery
 {
-    public $showId;
-    public $venueId;
+    public $showRef;
     public $name;
     public $eventCategory;
     public $productionCompanyName;
 
-    public function showId($value)
+    public function showRef($value)
     {
-        $this->showId = $value;
-
-        return $this;
-    }
-
-    public function venueId($value)
-    {
-        $this->venueId = $value;
+        $this->showRef = $value;
 
         return $this;
     }
@@ -53,19 +45,14 @@ class ShowQuery extends ElementQuery
         $this->joinElementTable('ticketsolve_shows');
 
         $this->query->select([
-            'ticketsolve_shows.showId',
-            'ticketsolve_shows.venueId',
+            'ticketsolve_shows.showRef',
             'ticketsolve_shows.name',
             'ticketsolve_shows.eventCategory',
             'ticketsolve_shows.productionCompanyName',
         ]);
 
-        if ($this->showId) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.showId', $this->showId));
-        }
-
-        if ($this->venueId) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.venueId', $this->venueId));
+        if ($this->showRef) {
+            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.showRef', $this->showRef));
         }
 
         if ($this->name) {

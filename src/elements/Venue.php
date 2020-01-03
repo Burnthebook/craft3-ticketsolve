@@ -27,7 +27,7 @@ class Venue extends Element
     // Public Properties
     // =========================================================================
 
-    public $venueId;
+    public $venueRef;
     public $name = '';
 
     // Static Methods
@@ -58,7 +58,7 @@ class Venue extends Element
     protected static function defineSortOptions(): array
     {
         return [
-            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
         ];
     }
@@ -66,14 +66,14 @@ class Venue extends Element
     protected static function defineTableAttributes(): array
     {
         return [
-            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
         ];
     }
 
     protected static function defineSearchableAttributes(): array
     {
-        return ['venueId','name'];
+        return ['venueRef','name'];
     }
 
     // Public Methods
@@ -86,7 +86,7 @@ class Venue extends Element
     {
         return [
             [['name'], 'string'],
-            [['name', 'venueId'], 'required'],
+            [['name', 'venueRef'], 'required'],
         ];
     }
 
@@ -110,14 +110,14 @@ class Venue extends Element
             \Craft::$app->db->createCommand()
                 ->insert('{{%ticketsolve_venues}}', [
                     'id' => $this->id,
-                    'venueId' => $this->venueId,
+                    'venueRef' => $this->venueRef,
                     'name' => $this->name,
                 ])
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
                 ->update('{{%ticketsolve_venues}}', [
-                    'venueId' => $this->venueId,
+                    'venueRef' => $this->venueRef,
                     'name' => $this->name,
                 ], ['id' => $this->id])
                 ->execute();

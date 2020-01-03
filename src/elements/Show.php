@@ -25,8 +25,8 @@ class Show extends Element
     // Public Properties
     // =========================================================================
 
-    public $showId;
     public $venueId;
+    public $showRef;
     public $name;
     public $description;
     public $eventCategory;
@@ -64,8 +64,7 @@ class Show extends Element
     protected static function defineSortOptions(): array
     {
         return [
-            'showId' => \Craft::t('ticketsolve', 'Show ID'),
-            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
             'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
             'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
@@ -75,8 +74,7 @@ class Show extends Element
     protected static function defineTableAttributes(): array
     {
         return [
-            'showId' => \Craft::t('ticketsolve', 'Show ID'),
-            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
             'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
             'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
@@ -85,7 +83,7 @@ class Show extends Element
 
     protected static function defineSearchableAttributes(): array
     {
-        return ['showId','venueId','name','description','eventCategory','productionCompanyName'];
+        return ['showRef','name','description','eventCategory','productionCompanyName'];
     }
 
     // Public Methods
@@ -106,7 +104,7 @@ class Show extends Element
     {
         return [
             [['name'], 'string'],
-            [['name', 'showId', 'venueId'], 'required'],
+            [['name', 'showRef', 'name'], 'required'],
         ];
     }
 
@@ -130,8 +128,8 @@ class Show extends Element
             \Craft::$app->db->createCommand()
                 ->insert('{{%ticketsolve_shows}}', [
                     'id' => $this->id,
-                    'showId' => $this->showId,
                     'venueId' => $this->venueId,
+                    'showRef' => $this->showRef,
                     'name' => $this->name,
                     'description' => $this->description,
                     'eventCategory' => $this->eventCategory,
