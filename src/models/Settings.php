@@ -26,7 +26,7 @@ class Settings extends Model
      * @var string
      */
     public $xmlUrl = '';
-    public $autoSync = 1;
+    public $autoSync = 0;
     public $syncDelay = 900; // 15 minute delay between sync jobs, in seconds
 
     // Public Methods

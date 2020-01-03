@@ -29,6 +29,10 @@ class TicketsolveService extends Component
     {
         $url = Ticketsolve::getInstance()->getSettings()->xmlUrl;
 
+        if (empty($url)) {
+            return;
+        }
+
         $xml = simplexml_load_file($url);
 
         print_r($xml);

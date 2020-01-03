@@ -24,9 +24,11 @@ To install the plugin, follow these instructions.
 
 In the Control Panel, go to Settings → Ticketsolve and enter the URL to your Ticketsolve XML feed.
 
+Enable AutoSync or, for advanced users, create a cron job on your server (see Syncing below)
+
 ## Syncing
 
-By default, the plugin will automatically sync from the XML feed every 15 minutes or so via a pseudo cron job.
+The plugin comes with an AutoSync option which will automatically sync from the XML feed every 15 minutes or so via a pseudo cron job.
 
 For more robust syncing, you can disable Auto Sync in the plugin settings and trigger it from a proper server cron job using the following Craft console command:
 
@@ -34,7 +36,7 @@ For more robust syncing, you can disable Auto Sync in the plugin settings and tr
 
 ## Using Ticketsolve
 
-    ... 
+    ...
 
 ---
 

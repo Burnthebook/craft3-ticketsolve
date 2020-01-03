@@ -122,21 +122,6 @@ class Ticketsolve extends Plugin
             }
         );
 
-        // queue the initial sync job after installing the plugin
-        Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function (PluginEvent $event) {
-                if ($event->plugin !== $this) {
-                    return;
-                }
-
-                if ($this->getSettings()->autoSync) {
-                    Craft::$app->queue->push(new SyncJob());
-                }
-            }
-        );
-
         // queue subsequent sync jobs
         Craft::$app->queue->on(Queue::EVENT_AFTER_EXEC, function ($event) {
             /** @var ExecEvent $event */
