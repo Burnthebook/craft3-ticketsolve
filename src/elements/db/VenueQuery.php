@@ -7,7 +7,15 @@ use craft\helpers\Db;
 
 class VenueQuery extends ElementQuery
 {
+    public $venueId;
     public $name;
+
+    public function venueId($value)
+    {
+        $this->venueId = $value;
+
+        return $this;
+    }
 
     public function name($value)
     {
@@ -21,8 +29,13 @@ class VenueQuery extends ElementQuery
         $this->joinElementTable('ticketsolve_venues');
 
         $this->query->select([
+            'ticketsolve_venues.venueId',
             'ticketsolve_venues.name',
         ]);
+
+        if ($this->venueId) {
+            $this->subQuery->andWhere(Db::parseParam('ticketsolve_venues.venueId', $this->venueId));
+        }
 
         if ($this->name) {
             $this->subQuery->andWhere(Db::parseParam('ticketsolve_venues.name', $this->name));

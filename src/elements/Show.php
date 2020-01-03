@@ -10,12 +10,10 @@
 
 namespace devkokov\ticketsolve\elements;
 
-use devkokov\ticketsolve\Ticketsolve;
-
 use Craft;
 use craft\base\Element;
-use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
+use devkokov\ticketsolve\elements\db\ShowQuery;
 
 /**
  * @author    Dimitar Kokov
@@ -27,10 +25,16 @@ class Show extends Element
     // Public Properties
     // =========================================================================
 
-    /**
-     * @var string
-     */
-    public $someAttribute = 'Some Default';
+    public $showId;
+    public $venueId;
+    public $name;
+    public $description;
+    public $eventCategory;
+    public $productionCompanyName;
+    public $priority;
+    public $url;
+    public $version;
+    public $images = [];
 
     // Static Methods
     // =========================================================================
@@ -43,50 +47,57 @@ class Show extends Element
         return Craft::t('ticketsolve', 'Show');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasContent(): bool
+    public static function pluralDisplayName(): string
     {
-        return true;
+        return Craft::t('ticketsolve', 'Shows');
     }
 
     /**
      * @inheritdoc
-     */
-    public static function hasTitles(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function isLocalized(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
+     * @return ShowQuery
      */
     public static function find(): ElementQueryInterface
     {
-        return new ElementQuery(get_called_class());
+        return new ShowQuery(static::class);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected static function defineSources(string $context = null): array
+    protected static function defineSortOptions(): array
     {
-        $sources = [];
+        return [
+            'showId' => \Craft::t('ticketsolve', 'Show ID'),
+            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'name' => \Craft::t('ticketsolve', 'Name'),
+            'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
+            'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
+        ];
+    }
 
-        return $sources;
+    protected static function defineTableAttributes(): array
+    {
+        return [
+            'showId' => \Craft::t('ticketsolve', 'Show ID'),
+            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
+            'name' => \Craft::t('ticketsolve', 'Name'),
+            'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
+            'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
+        ];
+    }
+
+    protected static function defineSearchableAttributes(): array
+    {
+        return ['showId','venueId','name','description','eventCategory','productionCompanyName'];
     }
 
     // Public Methods
     // =========================================================================
+
+    /**
+     * @param string $value JSON encoded array of images
+     */
+    public function setImagesJson(string $value)
+    {
+        $this->images = (array) \GuzzleHttp\json_decode($value);
+    }
 
     /**
      * @inheritdoc
@@ -94,74 +105,9 @@ class Show extends Element
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            [['name'], 'string'],
+            [['name', 'showId', 'venueId'], 'required'],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getIsEditable(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFieldLayout()
-    {
-        $tagGroup = $this->getGroup();
-
-        if ($tagGroup) {
-            return $tagGroup->getFieldLayout();
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getGroup()
-    {
-        if ($this->groupId === null) {
-            throw new InvalidConfigException('Tag is missing its group ID');
-        }
-
-        if (($group = Craft::$app->getTags()->getTagGroupById($this->groupId)) === null) {
-            throw new InvalidConfigException('Invalid tag group ID: '.$this->groupId);
-        }
-
-        return $group;
-    }
-
-    // Indexes, etc.
-    // -------------------------------------------------------------------------
-
-    /**
-     * @inheritdoc
-     */
-    public function getEditorHtml(): string
-    {
-        $html = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'textField', [
-            [
-                'label' => Craft::t('app', 'Title'),
-                'siteId' => $this->siteId,
-                'id' => 'title',
-                'name' => 'title',
-                'value' => $this->title,
-                'errors' => $this->getErrors('title'),
-                'first' => true,
-                'autofocus' => true,
-                'required' => true
-            ]
-        ]);
-
-        $html .= parent::getEditorHtml();
-
-        return $html;
     }
 
     // Events
@@ -180,6 +126,31 @@ class Show extends Element
      */
     public function afterSave(bool $isNew)
     {
+        if ($isNew) {
+            \Craft::$app->db->createCommand()
+                ->insert('{{%ticketsolve_shows}}', [
+                    'id' => $this->id,
+                    'showId' => $this->showId,
+                    'venueId' => $this->venueId,
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'eventCategory' => $this->eventCategory,
+                    'productionCompanyName' => $this->productionCompanyName,
+                    'priority' => $this->priority,
+                    'url' => $this->url,
+                    'version' => $this->version,
+                    'imagesJson' => \GuzzleHttp\json_encode($this->images),
+                ])
+                ->execute();
+        } else {
+            \Craft::$app->db->createCommand()
+                ->update('{{%ticketsolve_shows}}', [
+                    'name' => $this->name,
+                ], ['id' => $this->id])
+                ->execute();
+        }
+
+        parent::afterSave($isNew);
     }
 
     /**

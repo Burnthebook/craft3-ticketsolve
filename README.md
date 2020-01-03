@@ -28,7 +28,7 @@ In the Control Panel, go to Settings → Ticketsolve and enter the URL to your T
 
 By default, the plugin will automatically sync from the XML feed every 15 minutes or so via a pseudo cron job.
 
-You can also disable Auto Sync in the plugin settings and trigger the sync manually (or set-up a proper Cron job) with a Craft console command:
+For more robust syncing, you can disable Auto Sync in the plugin settings and trigger it from a proper server cron job using the following Craft console command:
 
     ./craft ticketsolve/feed/sync
 

@@ -25,4 +25,10 @@ return [
     'Name' => 'Name',
     'Venue' => 'Venue',
     'Venues' => 'Venues',
+    'Venue ID' => 'Venue ID',
+    'Show' => 'Show',
+    'Shows' => 'Shows',
+    'Show ID' => 'Show ID',
+    'Event Category' => 'Event Category',
+    'Production Company Name' => 'Production Company Name',
 ];

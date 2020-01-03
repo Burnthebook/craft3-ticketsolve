@@ -12,7 +12,9 @@ namespace devkokov\ticketsolve\elements;
 
 use Craft;
 use craft\base\Element;
+use craft\db\Query;
 use craft\elements\db\ElementQueryInterface;
+use craft\helpers\ArrayHelper;
 use devkokov\ticketsolve\elements\db\VenueQuery;
 
 /**
@@ -25,9 +27,7 @@ class Venue extends Element
     // Public Properties
     // =========================================================================
 
-    /**
-     * @var string
-     */
+    public $venueId;
     public $name = '';
 
     // Static Methods
@@ -58,6 +58,7 @@ class Venue extends Element
     protected static function defineSortOptions(): array
     {
         return [
+            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
         ];
     }
@@ -65,13 +66,14 @@ class Venue extends Element
     protected static function defineTableAttributes(): array
     {
         return [
+            'venueId' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
         ];
     }
 
     protected static function defineSearchableAttributes(): array
     {
-        return ['name'];
+        return ['venueId','name'];
     }
 
     // Public Methods
@@ -84,7 +86,7 @@ class Venue extends Element
     {
         return [
             [['name'], 'string'],
-            [['name'], 'required'],
+            [['name', 'venueId'], 'required'],
         ];
     }
 
@@ -108,12 +110,14 @@ class Venue extends Element
             \Craft::$app->db->createCommand()
                 ->insert('{{%ticketsolve_venues}}', [
                     'id' => $this->id,
+                    'venueId' => $this->venueId,
                     'name' => $this->name,
                 ])
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
                 ->update('{{%ticketsolve_venues}}', [
+                    'venueId' => $this->venueId,
                     'name' => $this->name,
                 ], ['id' => $this->id])
                 ->execute();
