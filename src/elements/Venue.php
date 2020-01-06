@@ -108,20 +108,19 @@ class Venue extends AbstractComparableElement
      */
     public function afterSave(bool $isNew)
     {
+        $data = [
+            'venueRef' => $this->venueRef,
+            'name' => $this->name,
+        ];
+
         if ($isNew) {
+            $data['id'] = $this->id;
             \Craft::$app->db->createCommand()
-                ->insert('{{%ticketsolve_venues}}', [
-                    'id' => $this->id,
-                    'venueRef' => $this->venueRef,
-                    'name' => $this->name,
-                ])
+                ->insert('{{%ticketsolve_venues}}', $data)
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
-                ->update('{{%ticketsolve_venues}}', [
-                    'venueRef' => $this->venueRef,
-                    'name' => $this->name,
-                ], ['id' => $this->id])
+                ->update('{{%ticketsolve_venues}}', $data, ['id' => $this->id])
                 ->execute();
         }
 

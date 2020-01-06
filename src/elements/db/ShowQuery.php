@@ -11,6 +11,7 @@ class ShowQuery extends ElementQuery
     public $name;
     public $eventCategory;
     public $productionCompanyName;
+    public $excludeShowRefs = [];
 
     public function showRef($value)
     {
@@ -40,15 +41,28 @@ class ShowQuery extends ElementQuery
         return $this;
     }
 
+    public function excludeShowRefs(array $showRefs)
+    {
+        $this->excludeShowRefs = $showRefs;
+
+        return $this;
+    }
+
     protected function beforePrepare(): bool
     {
         $this->joinElementTable('ticketsolve_shows');
 
         $this->query->select([
+            'ticketsolve_shows.venueId',
             'ticketsolve_shows.showRef',
             'ticketsolve_shows.name',
+            'ticketsolve_shows.description',
             'ticketsolve_shows.eventCategory',
             'ticketsolve_shows.productionCompanyName',
+            'ticketsolve_shows.priority',
+            'ticketsolve_shows.url',
+            'ticketsolve_shows.version',
+            'ticketsolve_shows.imagesJson',
         ]);
 
         if ($this->showRef) {
@@ -67,6 +81,10 @@ class ShowQuery extends ElementQuery
             $this->subQuery->andWhere(
                 Db::parseParam('ticketsolve_shows.productionCompanyName', $this->productionCompanyName)
             );
+        }
+
+        if ($this->excludeShowRefs) {
+            $this->subQuery->andWhere(['not in', 'ticketsolve_shows.showRef', $this->excludeShowRefs]);
         }
 
         return parent::beforePrepare();

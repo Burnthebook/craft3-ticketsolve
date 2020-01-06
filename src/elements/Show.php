@@ -11,7 +11,6 @@
 namespace devkokov\ticketsolve\elements;
 
 use Craft;
-use craft\base\Element;
 use craft\elements\db\ElementQueryInterface;
 use devkokov\ticketsolve\elements\db\ShowQuery;
 
@@ -20,7 +19,7 @@ use devkokov\ticketsolve\elements\db\ShowQuery;
  * @package   Ticketsolve
  * @since     1.0.0
  */
-class Show extends Element
+class Show extends AbstractComparableElement
 {
     // Public Properties
     // =========================================================================
@@ -83,7 +82,23 @@ class Show extends Element
 
     protected static function defineSearchableAttributes(): array
     {
-        return ['showRef','name','description','eventCategory','productionCompanyName'];
+        return ['showRef', 'name', 'description', 'eventCategory', 'productionCompanyName'];
+    }
+
+    protected static function defineComparableAttributes(): array
+    {
+        return [
+            'venueId',
+            'showRef',
+            'name',
+            'description',
+            'eventCategory',
+            'productionCompanyName',
+            'priority',
+            'url',
+            'version',
+            'images'
+        ];
     }
 
     // Public Methods
@@ -94,7 +109,7 @@ class Show extends Element
      */
     public function setImagesJson(string $value)
     {
-        $this->images = (array) \GuzzleHttp\json_decode($value);
+        $this->images = (array)\GuzzleHttp\json_decode($value, true);
     }
 
     /**
@@ -124,27 +139,27 @@ class Show extends Element
      */
     public function afterSave(bool $isNew)
     {
+        $data = [
+            'venueId' => $this->venueId,
+            'showRef' => $this->showRef,
+            'name' => $this->name,
+            'description' => $this->description,
+            'eventCategory' => $this->eventCategory,
+            'productionCompanyName' => $this->productionCompanyName,
+            'priority' => $this->priority,
+            'url' => $this->url,
+            'version' => $this->version,
+            'imagesJson' => \GuzzleHttp\json_encode($this->images),
+        ];
+
         if ($isNew) {
+            $data['id'] = $this->id;
             \Craft::$app->db->createCommand()
-                ->insert('{{%ticketsolve_shows}}', [
-                    'id' => $this->id,
-                    'venueId' => $this->venueId,
-                    'showRef' => $this->showRef,
-                    'name' => $this->name,
-                    'description' => $this->description,
-                    'eventCategory' => $this->eventCategory,
-                    'productionCompanyName' => $this->productionCompanyName,
-                    'priority' => $this->priority,
-                    'url' => $this->url,
-                    'version' => $this->version,
-                    'imagesJson' => \GuzzleHttp\json_encode($this->images),
-                ])
+                ->insert('{{%ticketsolve_shows}}', $data)
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
-                ->update('{{%ticketsolve_shows}}', [
-                    'name' => $this->name,
-                ], ['id' => $this->id])
+                ->update('{{%ticketsolve_shows}}', $data, ['id' => $this->id])
                 ->execute();
         }
 

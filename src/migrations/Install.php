@@ -11,13 +11,20 @@ class Install extends Migration
         if (!$this->db->tableExists('{{%ticketsolve_venues}}')) {
             $this->createTable('{{%ticketsolve_venues}}', [
                 'id' => $this->integer()->notNull(),
-                'venueRef' => $this->bigInteger()->notNull()->unique(),
+                'venueRef' => $this->bigInteger()->notNull(),
                 'name' => $this->char(255)->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
                 'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
+
+            $this->createIndex(
+                $this->db->getIndexName('{{%ticketsolve_venues}}', 'venueRef', true),
+                '{{%ticketsolve_venues}}',
+                'venueRef',
+                true
+            );
 
             // give it a FK to the elements table
             $this->addForeignKey(
@@ -49,6 +56,13 @@ class Install extends Migration
                 'uid' => $this->uid(),
                 'PRIMARY KEY(id)',
             ]);
+
+            $this->createIndex(
+                $this->db->getIndexName('{{%ticketsolve_shows}}', 'showRef', true),
+                '{{%ticketsolve_shows}}',
+                'showRef',
+                true
+            );
 
             // give it a FK to the elements table
             $this->addForeignKey(
