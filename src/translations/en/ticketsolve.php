@@ -29,6 +29,12 @@ return [
     'Show' => 'Show',
     'Shows' => 'Shows',
     'Show ID' => 'Show ID',
+    'Event' => 'Event',
+    'Events' => 'Events',
+    'Event ID' => 'Event ID',
+    'Status' => 'Status',
+    'Available' => 'Available',
+    'Date/Time' => 'Date/Time',
     'Event Category' => 'Event Category',
     'Production Company Name' => 'Production Company Name',
 ];

@@ -105,9 +105,9 @@ class Show extends AbstractComparableElement
     // =========================================================================
 
     /**
-     * @param string $value JSON encoded array of images
+     * @param string|null $value JSON encoded array of images
      */
-    public function setImagesJson(string $value)
+    public function setImagesJson($value)
     {
         $this->images = (array)\GuzzleHttp\json_decode($value, true);
     }
@@ -119,7 +119,7 @@ class Show extends AbstractComparableElement
     {
         return [
             [['name'], 'string'],
-            [['name', 'showRef', 'name'], 'required'],
+            [['name', 'showRef'], 'required'],
         ];
     }
 

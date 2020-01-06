@@ -10,27 +10,39 @@
 
 namespace devkokov\ticketsolve\elements;
 
-use devkokov\ticketsolve\Ticketsolve;
-
 use Craft;
-use craft\base\Element;
-use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
+use craft\helpers\DateTimeHelper;
+use craft\helpers\Db;
+use devkokov\ticketsolve\elements\db\EventQuery;
 
 /**
  * @author    Dimitar Kokov
  * @package   Ticketsolve
  * @since     1.0.0
  */
-class Event extends Element
+class Event extends AbstractComparableElement
 {
     // Public Properties
     // =========================================================================
 
-    /**
-     * @var string
-     */
-    public $someAttribute = 'Some Default';
+    public $showId;
+    public $eventRef;
+    public $name;
+    public $dateTime;
+    public $openingTime;
+    public $onSaleTime;
+    public $duration;
+    public $available;
+    public $capacity;
+    public $venueLayout;
+    public $comment;
+    public $url;
+    public $status;
+    public $fee;
+    public $feeCurrency;
+    public $maximumTickets;
+    public $prices = [];
 
     // Static Methods
     // =========================================================================
@@ -43,50 +55,107 @@ class Event extends Element
         return Craft::t('ticketsolve', 'Event');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasContent(): bool
+    public static function pluralDisplayName(): string
     {
-        return true;
+        return Craft::t('ticketsolve', 'Events');
     }
 
     /**
      * @inheritdoc
-     */
-    public static function hasTitles(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function isLocalized(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
+     * @return EventQuery
      */
     public static function find(): ElementQueryInterface
     {
-        return new ElementQuery(get_called_class());
+        return new EventQuery(static::class);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected static function defineSources(string $context = null): array
+    protected static function defineSortOptions(): array
     {
-        $sources = [];
+        return [
+            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
+            'name' => \Craft::t('ticketsolve', 'Name'),
+            'dateTime' => \Craft::t('ticketsolve', 'Date/Time'),
+            'status' => \Craft::t('ticketsolve', 'Status'),
+            'available' => \Craft::t('ticketsolve', 'Available'),
+        ];
+    }
 
-        return $sources;
+    protected static function defineTableAttributes(): array
+    {
+        return [
+            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
+            'name' => \Craft::t('ticketsolve', 'Name'),
+            'dateTime' => \Craft::t('ticketsolve', 'Date/Time'),
+            'status' => \Craft::t('ticketsolve', 'Status'),
+            'available' => \Craft::t('ticketsolve', 'Available'),
+        ];
+    }
+
+    protected static function defineSearchableAttributes(): array
+    {
+        return ['eventRef', 'name'];
+    }
+
+    protected static function defineComparableAttributes(): array
+    {
+        return [
+            'showId',
+            'eventRef',
+            'name',
+            'dateTime',
+            'openingTime',
+            'onSaleTime',
+            'duration',
+            'available',
+            'capacity',
+            'venueLayout',
+            'comment',
+            'url',
+            'status',
+            'fee',
+            'feeCurrency',
+            'maximumTickets',
+            'prices',
+        ];
     }
 
     // Public Methods
     // =========================================================================
+
+    /**
+     * @param string|null $value JSON encoded array of prices
+     */
+    public function setPricesJson($value)
+    {
+        $this->prices = (array)\GuzzleHttp\json_decode($value, true);
+    }
+
+    /**
+     * @param string|null $value
+     * @throws \Exception
+     */
+    public function setDateTimeString($value)
+    {
+        $this->dateTime = DateTimeHelper::toDateTime($value);
+    }
+
+    /**
+     * @param string|null $value
+     * @throws \Exception
+     */
+    public function setOpeningTimeString($value)
+    {
+        $this->openingTime = DateTimeHelper::toDateTime($value);
+    }
+
+    /**
+     * @param string|null $value
+     * @throws \Exception
+     */
+    public function setOnSaleTimeString($value)
+    {
+        $this->onSaleTime = DateTimeHelper::toDateTime($value);
+    }
 
     /**
      * @inheritdoc
@@ -94,74 +163,9 @@ class Event extends Element
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            [['name'], 'string'],
+            [['name', 'eventRef'], 'required'],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getIsEditable(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFieldLayout()
-    {
-        $tagGroup = $this->getGroup();
-
-        if ($tagGroup) {
-            return $tagGroup->getFieldLayout();
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getGroup()
-    {
-        if ($this->groupId === null) {
-            throw new InvalidConfigException('Tag is missing its group ID');
-        }
-
-        if (($group = Craft::$app->getTags()->getTagGroupById($this->groupId)) === null) {
-            throw new InvalidConfigException('Invalid tag group ID: '.$this->groupId);
-        }
-
-        return $group;
-    }
-
-    // Indexes, etc.
-    // -------------------------------------------------------------------------
-
-    /**
-     * @inheritdoc
-     */
-    public function getEditorHtml(): string
-    {
-        $html = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'textField', [
-            [
-                'label' => Craft::t('app', 'Title'),
-                'siteId' => $this->siteId,
-                'id' => 'title',
-                'name' => 'title',
-                'value' => $this->title,
-                'errors' => $this->getErrors('title'),
-                'first' => true,
-                'autofocus' => true,
-                'required' => true
-            ]
-        ]);
-
-        $html .= parent::getEditorHtml();
-
-        return $html;
     }
 
     // Events
@@ -180,6 +184,38 @@ class Event extends Element
      */
     public function afterSave(bool $isNew)
     {
+        $data = [
+            'showId' => $this->showId,
+            'eventRef' => $this->eventRef,
+            'name' => $this->name,
+            'dateTimeString' => Db::prepareValueForDb($this->dateTime),
+            'openingTimeString' => Db::prepareValueForDb($this->openingTime),
+            'onSaleTimeString' => Db::prepareValueForDb($this->onSaleTime),
+            'duration' => $this->duration,
+            'available' => $this->available,
+            'capacity' => $this->capacity,
+            'venueLayout' => $this->venueLayout,
+            'comment' => $this->comment,
+            'url' => $this->url,
+            'status' => $this->status,
+            'fee' => $this->fee,
+            'feeCurrency' => $this->feeCurrency,
+            'maximumTickets' => $this->maximumTickets,
+            'pricesJson' => \GuzzleHttp\json_encode($this->prices),
+        ];
+
+        if ($isNew) {
+            $data['id'] = $this->id;
+            \Craft::$app->db->createCommand()
+                ->insert('{{%ticketsolve_events}}', $data)
+                ->execute();
+        } else {
+            \Craft::$app->db->createCommand()
+                ->update('{{%ticketsolve_events}}', $data, ['id' => $this->id])
+                ->execute();
+        }
+
+        parent::afterSave($isNew);
     }
 
     /**

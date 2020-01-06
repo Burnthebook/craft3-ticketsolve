@@ -10,6 +10,7 @@
 
 namespace devkokov\ticketsolve\services;
 
+use devkokov\ticketsolve\elements\Event;
 use devkokov\ticketsolve\elements\Show;
 use devkokov\ticketsolve\elements\Venue;
 use devkokov\ticketsolve\Ticketsolve;
@@ -40,6 +41,7 @@ class TicketsolveService extends Component
 
         $venueRefs = [];
         $showRefs = [];
+        $eventRefs = [];
 
         $venues = simplexml_load_file($url);
 
@@ -91,9 +93,11 @@ class TicketsolveService extends Component
                     if ($show->isDifferent($oldShow)) {
                         // update existing show
                         $show->syncToElement($oldShow);
+                        $show = $oldShow;
                         echo "Updating Show Ref $show->showRef ... \n";
-                        Craft::$app->elements->saveElement($oldShow, false);
+                        Craft::$app->elements->saveElement($show, false);
                     } else {
+                        $show = $oldShow;
                         echo "Skipping Show Ref $show->showRef - no change detected ... \n";
                     }
                 } else {
@@ -104,6 +108,39 @@ class TicketsolveService extends Component
 
                 // store show ref so we can sort out deletions later on
                 $showRefs[] = $show->showRef;
+
+                // SYNC EVENTS
+
+                foreach ($xmlShow->events->event as $k => $xmlEvent) {
+                    $event = $this->getEventFromXML($xmlEvent, $show);
+
+                    if (!$event->eventRef) {
+                        echo "Missing eventRef at iteration $k \n";
+                        continue;
+                    }
+
+                    $oldEvent = Event::find()->eventRef($event->eventRef)->one();
+
+                    if ($oldEvent) {
+                        if ($event->isDifferent($oldEvent)) {
+                            // update existing event
+                            $event->syncToElement($oldEvent);
+                            $event = $oldEvent;
+                            echo "Updating Event Ref $event->eventRef ... \n";
+                            Craft::$app->elements->saveElement($oldEvent, false);
+                        } else {
+                            $event = $oldEvent;
+                            echo "Skipping Event Ref $event->eventRef - no change detected ... \n";
+                        }
+                    } else {
+                        // create new event
+                        echo "Creating Event Ref $event->eventRef ... \n";
+                        Craft::$app->elements->saveElement($event, false);
+                    }
+
+                    // store event ref so we can sort out deletions later on
+                    $eventRefs[] = $event->eventRef;
+                }
             }
         }
 
@@ -119,6 +156,13 @@ class TicketsolveService extends Component
         foreach ($deleteShows as $deleteShow) {
             echo "Deleting Show Ref $deleteShow->showRef ... \n";
             Craft::$app->elements->deleteElement($deleteShow, true);
+        }
+
+        $deleteEvents = Event::find()->excludeEventRefs($eventRefs)->all();
+        /** @var Event $deleteEvent */
+        foreach ($deleteEvents as $deleteEvent) {
+            echo "Deleting Event Ref $deleteEvent->eventRef ... \n";
+            Craft::$app->elements->deleteElement($deleteEvent, true);
         }
 
         echo "Sync finished. \n";
@@ -157,5 +201,61 @@ class TicketsolveService extends Component
         }
 
         return $show;
+    }
+
+    private function getEventFromXML(\SimpleXMLElement $xml, Show $show): Event
+    {
+        // additional event information is stored in a separate XML feed. fetch it!
+        $xml2 = simplexml_load_file($xml->feed->url);
+
+        $event = new Event();
+        $event->showId = $show->id;
+        $event->eventRef = isset($xml['id']) ? (integer) $xml['id'] : null;
+        $event->name = trim($xml->name);
+        $event->dateTime = $this->getDateTimeFromXML($xml2, 'date_time');
+        $event->openingTime = $this->getDateTimeFromXML($xml2, 'opening_time');
+        $event->onSaleTime = $this->getDateTimeFromXML($xml2, 'onsale_time');
+        $event->duration = (integer) trim($xml2->duration);
+        $event->available = (integer) trim($xml2->available);
+        $event->capacity = (integer) trim($xml2->capacity);
+        $event->venueLayout = trim($xml->venue_layout);
+        $event->comment = trim($xml2->comment);
+        $event->url = trim($xml2->url);
+        $event->status = trim($xml2->status);
+        $event->fee = (float) trim($xml2->transaction->fee);
+        $event->feeCurrency = trim($xml2->transaction->fee->attributes()['currency']);
+        $event->maximumTickets = (integer) trim($xml2->transaction->maximum_tickets);
+        $event->prices = [];
+
+        foreach ($xml2->prices->price as $price) {
+            $event->prices[] = [
+                'type' => trim($price->type),
+                'facePrice' => [
+                    'value' => (float) trim($price->face_price),
+                    'currency' => trim($price->face_price->attributes()['currency'])
+                ],
+                'sellingPrice' => [
+                    'value' => (float) trim($price->selling_price),
+                    'currency' => trim($price->selling_price->attributes()['currency'])
+                ]
+            ];
+        }
+
+        return $event;
+    }
+
+    /**
+     * @param \SimpleXMLElement $xml
+     * @param string $nodeName
+     * @return \DateTime|null
+     * @throws \Exception
+     */
+    private function getDateTimeFromXML(\SimpleXMLElement $xml, string $nodeName)
+    {
+        if (empty($xml->$nodeName)) {
+            return null;
+        }
+
+        return new \DateTime(trim($xml->$nodeName), new \DateTimeZone($xml->$nodeName->attributes()['zone']));
     }
 }

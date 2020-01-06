@@ -28,6 +28,9 @@ abstract class AbstractComparableElement extends Element
 
         foreach ($this::defineComparableAttributes() as $attribute) {
             if ($this->$attribute != $element->$attribute) {
+                var_dump($this->$attribute);
+                var_dump($element->$attribute);
+                exit;
                 return true;
             }
         }
