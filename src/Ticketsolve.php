@@ -15,7 +15,8 @@ use craft\db\Table;
 use craft\queue\Queue;
 use craft\web\twig\variables\CraftVariable;
 use devkokov\ticketsolve\jobs\SyncJob;
-use devkokov\ticketsolve\services\TicketsolveService as TicketsolveServiceService;
+use devkokov\ticketsolve\services\TagsService;
+use devkokov\ticketsolve\services\SyncService;
 use devkokov\ticketsolve\models\Settings;
 use devkokov\ticketsolve\elements\Venue as VenueElement;
 use devkokov\ticketsolve\elements\Show as ShowElement;
@@ -44,7 +45,8 @@ use yii\queue\ExecEvent;
  * @package   Ticketsolve
  * @since     1.0.0
  *
- * @property  TicketsolveServiceService $ticketsolveService
+ * @property  SyncService $syncService
+ * @property  TagsService $tagsService
  */
 class Ticketsolve extends Plugin
 {

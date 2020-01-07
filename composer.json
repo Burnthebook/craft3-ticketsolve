@@ -37,7 +37,8 @@
         "hasCpSection": true,
         "changelogUrl": "https://raw.githubusercontent.com/devkokov/ticketsolve/master/CHANGELOG.md",
         "components": {
-            "ticketsolveService": "devkokov\\ticketsolve\\services\\TicketsolveService"
+            "syncService": "devkokov\\ticketsolve\\services\\SyncService",
+            "tagsService": "devkokov\\ticketsolve\\services\\TagsService"
         },
         "class": "devkokov\\ticketsolve\\Ticketsolve"
     }

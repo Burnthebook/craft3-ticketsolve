@@ -13,7 +13,7 @@ class FeedController extends Controller
      */
     public function actionSync()
     {
-        Ticketsolve::getInstance()->ticketsolveService->syncFromXML();
+        Ticketsolve::getInstance()->syncService->syncFromXML();
 
         return ExitCode::OK;
     }

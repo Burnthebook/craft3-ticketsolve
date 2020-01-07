@@ -11,16 +11,16 @@
 namespace devkokov\ticketsolve\records;
 
 use craft\db\ActiveRecord;
-use devkokov\ticketsolve\models\TagModel;
 
 /**
- * @property int    $id
- * @property string $name
+ * @property int $id
+ * @property int $tagId
+ * @property int $showId
  */
-class TagRecord extends ActiveRecord
+class TagIndexRecord extends ActiveRecord
 {
-    const TABLE     = '{{%ticketsolve_tags}}';
-    const TABLE_STD = 'ticketsolve_tags';
+    const TABLE     = '{{%ticketsolve_tags_index}}';
+    const TABLE_STD = 'ticketsolve_tags_index';
 
     /**
      * @return string
@@ -36,17 +36,8 @@ class TagRecord extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'], 'unique'],
-            [['name'], 'required'],
+            [['tagId', 'showId'], 'required'],
+            [['tagId', 'showId'], 'integer'],
         ];
-    }
-
-    public function toModel(): TagModel
-    {
-        $model = new TagModel();
-        $model->id = $this->id;
-        $model->name = $this->name;
-
-        return $model;
     }
 }

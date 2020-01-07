@@ -209,6 +209,13 @@ class Install extends Migration
             'uid' => $this->uid(),
             'PRIMARY KEY(id)',
         ]);
+
+        $this->createIndex(
+            $this->db->getIndexName(self::TABLE_TAGS, 'name', true),
+            self::TABLE_TAGS,
+            'name',
+            true
+        );
     }
 
     private function createTagsIndexTable()

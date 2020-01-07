@@ -23,7 +23,7 @@ use craft\base\Component;
  * @package   Ticketsolve
  * @since     1.0.0
  */
-class TicketsolveService extends Component
+class SyncService extends Component
 {
     // Public Methods
     // =========================================================================
@@ -49,6 +49,7 @@ class TicketsolveService extends Component
         $venueRefs = [];
         $showRefs = [];
         $eventRefs = [];
+        $tagNames = [];
 
         $venues = simplexml_load_file($url);
 
@@ -103,6 +104,9 @@ class TicketsolveService extends Component
                     continue;
                 }
 
+                $tags = $this->getTagsFromXML($xmlShow);
+
+                /** @var Show $oldShow */
                 $oldShow = Show::find()->showRef($show->showRef)->one();
 
                 if ($oldShow) {
@@ -116,14 +120,24 @@ class TicketsolveService extends Component
                         $show = $oldShow;
                         echo "Skipping Show Ref $show->showRef - no change detected ... \n";
                     }
+
+                    $oldTags = Ticketsolve::$plugin->tagsService->getTagsFromShow($show);
+
+                    echo "Added " . $this->tagsService()->tagShow($show, array_diff($tags, $oldTags)) . " tags. \n";
+                    echo "Removed " . $this->tagsService()->untagShow($show, array_diff($oldTags, $tags)) . " tags. \n";
                 } else {
                     // create new show
                     echo "Creating Show Ref $show->showRef ... \n";
                     Craft::$app->elements->saveElement($show, false);
+
+                    echo "Added " . Ticketsolve::$plugin->tagsService->tagShow($show, $tags) . " tags. \n";
                 }
 
                 // store show ref so we can sort out deletions later on
                 $showRefs[] = $show->showRef;
+
+                // store tag names so we can sort out deletions later on
+                $tagNames = array_unique(array_merge($tagNames, $tags));
 
                 // update sync progress
                 $entityCounter++;
@@ -193,8 +207,13 @@ class TicketsolveService extends Component
             Craft::$app->elements->deleteElement($deleteEvent, true);
         }
 
+        echo "Deleted " . $this->tagsService()->deleteAllTagsExcept($tagNames) . " tags. \n";
+
         echo "Sync finished. \n";
     }
+
+    // Private Methods
+    // =========================================================================
 
     private function getVenueFromXML(\SimpleXMLElement $xml): Venue
     {
@@ -229,6 +248,17 @@ class TicketsolveService extends Component
         }
 
         return $show;
+    }
+
+    private function getTagsFromXML(\SimpleXMLElement $xml): array
+    {
+        $tags = [];
+
+        foreach ($xml->tags->tag as $tag) {
+            $tags[] = trim($tag);
+        }
+
+        return $tags;
     }
 
     private function getEventFromXML(\SimpleXMLElement $xml, Show $show): Event
@@ -297,5 +327,10 @@ class TicketsolveService extends Component
             }
         }
         return $count;
+    }
+
+    private function tagsService(): TagsService
+    {
+        return Ticketsolve::getInstance()->tagsService;
     }
 }
