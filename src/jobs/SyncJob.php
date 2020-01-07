@@ -30,12 +30,18 @@ class SyncJob extends BaseJob
      */
     public function execute($queue)
     {
-        Ticketsolve::getInstance()->ticketsolveService->syncFromXML();
+        $job = $this;
+
+        Ticketsolve::getInstance()->ticketsolveService->syncFromXML(
+            function ($progress, $label = null) use ($job, $queue) {
+                $job->setProgress($queue, $progress, $label);
+            }
+        );
     }
 
     public static function getDefaultDescription(): string
     {
-        return Craft::t('ticketsolve', 'Ticketsolve Sync Job');
+        return Craft::t('ticketsolve', 'Ticketsolve Sync');
     }
 
     // Protected Methods

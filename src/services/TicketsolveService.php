@@ -28,7 +28,14 @@ class TicketsolveService extends Component
     // Public Methods
     // =========================================================================
 
-    public function syncFromXML()
+    /**
+     * @param callable $setProgress A function that sets the progress of the sync.
+     * Accepts a number between 0 and 1 as the first parameter, and an optional label as the second
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \yii\base\Exception
+     */
+    public function syncFromXML(callable $setProgress = null)
     {
         echo "Starting sync from XML feed ... \n";
 
@@ -44,6 +51,9 @@ class TicketsolveService extends Component
         $eventRefs = [];
 
         $venues = simplexml_load_file($url);
+
+        $entityCount = $this->getEntityCountFromXML($venues);
+        $entityCounter = 0;
 
         foreach ($venues->venue as $i => $xmlVenue) {
             // SYNC VENUES
@@ -77,6 +87,12 @@ class TicketsolveService extends Component
             // store venue ref so we can sort out deletions later on
             $venueRefs[] = $venue->venueRef;
 
+            // update sync progress
+            $entityCounter++;
+            if (is_callable($setProgress)) {
+                $setProgress($entityCounter / $entityCount, "Processed $entityCounter out of $entityCount.");
+            }
+
             // SYNC SHOWS
 
             foreach ($xmlVenue->shows->show as $j => $xmlShow) {
@@ -109,6 +125,12 @@ class TicketsolveService extends Component
                 // store show ref so we can sort out deletions later on
                 $showRefs[] = $show->showRef;
 
+                // update sync progress
+                $entityCounter++;
+                if (is_callable($setProgress)) {
+                    $setProgress($entityCounter / $entityCount, "Processed $entityCounter out of $entityCount.");
+                }
+
                 // SYNC EVENTS
 
                 foreach ($xmlShow->events->event as $k => $xmlEvent) {
@@ -140,6 +162,12 @@ class TicketsolveService extends Component
 
                     // store event ref so we can sort out deletions later on
                     $eventRefs[] = $event->eventRef;
+
+                    // update sync progress
+                    $entityCounter++;
+                    if (is_callable($setProgress)) {
+                        $setProgress($entityCounter / $entityCount, "Processed $entityCounter out of $entityCount.");
+                    }
                 }
             }
         }
@@ -171,7 +199,7 @@ class TicketsolveService extends Component
     private function getVenueFromXML(\SimpleXMLElement $xml): Venue
     {
         $venue = new Venue();
-        $venue->venueRef = isset($xml['id']) ? (integer) $xml['id'] : null;
+        $venue->venueRef = isset($xml['id']) ? (integer)$xml['id'] : null;
         $venue->name = trim($xml->name);
 
         return $venue;
@@ -181,14 +209,14 @@ class TicketsolveService extends Component
     {
         $show = new Show();
         $show->venueId = $venue->id;
-        $show->showRef = isset($xml['id']) ? (integer) $xml['id'] : null;
+        $show->showRef = isset($xml['id']) ? (integer)$xml['id'] : null;
         $show->name = trim($xml->name);
         $show->description = trim($xml->description);
         $show->eventCategory = trim($xml->event_category);
         $show->productionCompanyName = trim($xml->production_company_name);
-        $show->priority = (integer) trim($xml->priority);
+        $show->priority = (integer)trim($xml->priority);
         $show->url = trim($xml->url);
-        $show->version = (integer) trim($xml->version);
+        $show->version = (integer)trim($xml->version);
         $show->images = [];
 
         foreach ($xml->images->image as $imageXml) {
@@ -210,32 +238,32 @@ class TicketsolveService extends Component
 
         $event = new Event();
         $event->showId = $show->id;
-        $event->eventRef = isset($xml['id']) ? (integer) $xml['id'] : null;
+        $event->eventRef = isset($xml['id']) ? (integer)$xml['id'] : null;
         $event->name = trim($xml->name);
         $event->dateTime = $this->getDateTimeFromXML($xml2, 'date_time');
         $event->openingTime = $this->getDateTimeFromXML($xml2, 'opening_time');
         $event->onSaleTime = $this->getDateTimeFromXML($xml2, 'onsale_time');
-        $event->duration = (integer) trim($xml2->duration);
-        $event->available = (integer) trim($xml2->available);
-        $event->capacity = (integer) trim($xml2->capacity);
+        $event->duration = (integer)trim($xml2->duration);
+        $event->available = (integer)trim($xml2->available);
+        $event->capacity = (integer)trim($xml2->capacity);
         $event->venueLayout = trim($xml->venue_layout);
         $event->comment = trim($xml2->comment);
         $event->url = trim($xml2->url);
         $event->status = trim($xml2->status);
-        $event->fee = (float) trim($xml2->transaction->fee);
+        $event->fee = (float)trim($xml2->transaction->fee);
         $event->feeCurrency = trim($xml2->transaction->fee->attributes()['currency']);
-        $event->maximumTickets = (integer) trim($xml2->transaction->maximum_tickets);
+        $event->maximumTickets = (integer)trim($xml2->transaction->maximum_tickets);
         $event->prices = [];
 
         foreach ($xml2->prices->price as $price) {
             $event->prices[] = [
                 'type' => trim($price->type),
                 'facePrice' => [
-                    'value' => (float) trim($price->face_price),
+                    'value' => (float)trim($price->face_price),
                     'currency' => trim($price->face_price->attributes()['currency'])
                 ],
                 'sellingPrice' => [
-                    'value' => (float) trim($price->selling_price),
+                    'value' => (float)trim($price->selling_price),
                     'currency' => trim($price->selling_price->attributes()['currency'])
                 ]
             ];
@@ -257,5 +285,17 @@ class TicketsolveService extends Component
         }
 
         return new \DateTime(trim($xml->$nodeName), new \DateTimeZone($xml->$nodeName->attributes()['zone']));
+    }
+
+    private function getEntityCountFromXML(\SimpleXMLElement $xml)
+    {
+        $count = $xml->count();
+        foreach ($xml->venue as $venue) {
+            $count += count($venue->shows->show);
+            foreach ($venue->shows->show as $show) {
+                $count += count($show->events->event);
+            }
+        }
+        return $count;
     }
 }
