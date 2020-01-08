@@ -85,22 +85,16 @@ class Event extends AbstractComparableElement
     protected static function defineSortOptions(): array
     {
         return [
-            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
-            'dateTime' => \Craft::t('ticketsolve', 'Date/Time'),
-            'status' => \Craft::t('ticketsolve', 'Status'),
-            'available' => \Craft::t('ticketsolve', 'Available'),
+            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
         ];
     }
 
     protected static function defineTableAttributes(): array
     {
         return [
-            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
-            'dateTime' => \Craft::t('ticketsolve', 'Date/Time'),
-            'status' => \Craft::t('ticketsolve', 'Status'),
-            'available' => \Craft::t('ticketsolve', 'Available'),
+            'eventRef' => \Craft::t('ticketsolve', 'Event ID'),
         ];
     }
 
@@ -129,6 +123,17 @@ class Event extends AbstractComparableElement
             'feeCurrency',
             'maximumTickets',
             'prices',
+        ];
+    }
+
+    protected static function defineSources(string $context = null): array
+    {
+        return [
+            [
+                'key' => '*',
+                'label' => 'All Events',
+                'criteria' => []
+            ],
         ];
     }
 
@@ -179,6 +184,15 @@ class Event extends AbstractComparableElement
             [['name'], 'string'],
             [['name', 'eventRef'], 'required'],
         ];
+    }
+
+    public function __toString()
+    {
+        if ($this->name) {
+            return $this->name;
+        }
+
+        return parent::__toString();
     }
 
     /**

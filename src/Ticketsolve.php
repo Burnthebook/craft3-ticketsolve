@@ -10,18 +10,6 @@
 
 namespace devkokov\ticketsolve;
 
-use craft\console\Application as ConsoleApplication;
-use craft\queue\Queue;
-use craft\web\twig\variables\CraftVariable;
-use devkokov\ticketsolve\jobs\SyncJob;
-use devkokov\ticketsolve\services\TagsService;
-use devkokov\ticketsolve\services\SyncService;
-use devkokov\ticketsolve\models\Settings;
-use devkokov\ticketsolve\elements\Venue as VenueElement;
-use devkokov\ticketsolve\elements\Show as ShowElement;
-use devkokov\ticketsolve\elements\Event as EventElement;
-use devkokov\ticketsolve\fields\Shows as ShowsField;
-
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
@@ -31,12 +19,23 @@ use craft\services\Elements;
 use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
-use devkokov\ticketsolve\services\TwigService;
+use craft\console\Application as ConsoleApplication;
+use craft\queue\Queue;
+use craft\web\twig\variables\CraftVariable;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use yii\base\Event;
 use yii\queue\ExecEvent;
+use devkokov\ticketsolve\jobs\SyncJob;
+use devkokov\ticketsolve\services\TagsService;
+use devkokov\ticketsolve\services\SyncService;
+use devkokov\ticketsolve\services\TwigService;
+use devkokov\ticketsolve\models\Settings;
+use devkokov\ticketsolve\elements\Venue as VenueElement;
+use devkokov\ticketsolve\elements\Show as ShowElement;
+use devkokov\ticketsolve\elements\Event as EventElement;
+use devkokov\ticketsolve\fields\Shows as ShowsField;
 
 /**
  * Class Ticketsolve
@@ -103,6 +102,7 @@ class Ticketsolve extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
+                $event->rules['ticketsolve'] = 'ticketsolve/admin/index';
                 $event->rules['ticketsolve/sync-now'] = 'ticketsolve/admin/sync-now';
             }
         );
@@ -179,7 +179,6 @@ class Ticketsolve extends Plugin
     {
         $item = parent::getCpNavItem();
         $item['subnav'] = [
-            'dashboard' => ['label' => 'Dashboard', 'url' => 'ticketsolve'],
             'venues' => ['label' => 'Venues', 'url' => 'ticketsolve/venues'],
             'shows' => ['label' => 'Shows', 'url' => 'ticketsolve/shows'],
             'events' => ['label' => 'Events', 'url' => 'ticketsolve/events'],

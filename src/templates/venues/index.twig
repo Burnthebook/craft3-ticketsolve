@@ -1,0 +1,24 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Ticketsolve plugin for Craft CMS 3.x
+ *
+ * Ticketsolve index.twig
+ *
+ * @author    Dimitar Kokov
+ * @copyright Copyright (c) 2019 Dimitar Kokov
+ * @link      https://github.com/devkokov
+ * @package   Ticketsolve
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/elementindex" %}
+
+{% set title = "Venues"|t('ticketsolve') %}
+{% set selectedSubnavItem = 'venues' %}
+{% set elementType = 'devkokov\\ticketsolve\\elements\\Venue' %}
+
+{% block actionButton %}
+    <a href="{{ url('ticketsolve/sync-now') }}" class="btn submit">{{ "Sync Now"|t('ticketsolve') }}</a>
+{% endblock %}

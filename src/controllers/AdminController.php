@@ -28,6 +28,14 @@ class AdminController extends Controller
     /**
      * @return mixed
      */
+    public function actionIndex()
+    {
+        return $this->redirect(UrlHelper::cpUrl('ticketsolve/venues'));
+    }
+
+    /**
+     * @return mixed
+     */
     public function actionSyncNow()
     {
         $syncService = Ticketsolve::getInstance()->syncService;

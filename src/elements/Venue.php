@@ -59,16 +59,16 @@ class Venue extends AbstractComparableElement
     protected static function defineSortOptions(): array
     {
         return [
-            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
+            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
         ];
     }
 
     protected static function defineTableAttributes(): array
     {
         return [
-            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
+            'venueRef' => \Craft::t('ticketsolve', 'Venue ID'),
         ];
     }
 
@@ -80,6 +80,17 @@ class Venue extends AbstractComparableElement
     protected static function defineComparableAttributes(): array
     {
         return ['venueRef','name'];
+    }
+
+    protected static function defineSources(string $context = null): array
+    {
+        return [
+            [
+                'key' => '*',
+                'label' => 'All Venues',
+                'criteria' => []
+            ],
+        ];
     }
 
     // Public Methods
@@ -94,6 +105,15 @@ class Venue extends AbstractComparableElement
             [['name'], 'string'],
             [['name', 'venueRef'], 'required'],
         ];
+    }
+
+    public function __toString()
+    {
+        if ($this->name) {
+            return $this->name;
+        }
+
+        return parent::__toString();
     }
 
     /**
