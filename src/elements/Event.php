@@ -25,6 +25,9 @@ use devkokov\ticketsolve\elements\db\EventQuery;
  */
 class Event extends AbstractComparableElement
 {
+    const TABLE     = '{{%ticketsolve_events}}';
+    const TABLE_STD = 'ticketsolve_events';
+
     // Public Properties
     // =========================================================================
 
@@ -249,11 +252,11 @@ class Event extends AbstractComparableElement
         if ($isNew) {
             $data['id'] = $this->id;
             \Craft::$app->db->createCommand()
-                ->insert('{{%ticketsolve_events}}', $data)
+                ->insert(self::TABLE, $data)
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
-                ->update('{{%ticketsolve_events}}', $data, ['id' => $this->id])
+                ->update(self::TABLE, $data, ['id' => $this->id])
                 ->execute();
         }
 

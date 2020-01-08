@@ -2,8 +2,12 @@
 
 namespace devkokov\ticketsolve\elements\db;
 
+use craft\db\Query;
 use craft\elements\db\ElementQuery;
 use craft\helpers\Db;
+use devkokov\ticketsolve\elements\Show;
+use devkokov\ticketsolve\records\TagIndexRecord;
+use devkokov\ticketsolve\records\TagRecord;
 
 class ShowQuery extends ElementQuery
 {
@@ -13,6 +17,7 @@ class ShowQuery extends ElementQuery
     public $productionCompanyName;
     public $venueId;
     public $excludeShowRefs = [];
+    public $tags = [];
 
     public function showRef($value)
     {
@@ -56,47 +61,77 @@ class ShowQuery extends ElementQuery
         return $this;
     }
 
+    public function tags(array $tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
     protected function beforePrepare(): bool
     {
-        $this->joinElementTable('ticketsolve_shows');
+        $this->joinElementTable(Show::TABLE_STD);
 
         $this->query->select([
-            'ticketsolve_shows.venueId',
-            'ticketsolve_shows.showRef',
-            'ticketsolve_shows.name',
-            'ticketsolve_shows.description',
-            'ticketsolve_shows.eventCategory',
-            'ticketsolve_shows.productionCompanyName',
-            'ticketsolve_shows.priority',
-            'ticketsolve_shows.url',
-            'ticketsolve_shows.version',
-            'ticketsolve_shows.imagesJson',
+            Show::TABLE_STD . '.venueId',
+            Show::TABLE_STD . '.showRef',
+            Show::TABLE_STD . '.name',
+            Show::TABLE_STD . '.description',
+            Show::TABLE_STD . '.eventCategory',
+            Show::TABLE_STD . '.productionCompanyName',
+            Show::TABLE_STD . '.priority',
+            Show::TABLE_STD . '.url',
+            Show::TABLE_STD . '.version',
+            Show::TABLE_STD . '.imagesJson',
         ]);
 
         if ($this->showRef) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.showRef', $this->showRef));
+            $this->subQuery->andWhere(Db::parseParam(Show::TABLE_STD . '.showRef', $this->showRef));
         }
 
         if ($this->name) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.name', $this->name));
+            $this->subQuery->andWhere(Db::parseParam(Show::TABLE_STD . '.name', $this->name));
         }
 
         if ($this->eventCategory) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.eventCategory', $this->eventCategory));
+            $this->subQuery->andWhere(Db::parseParam(Show::TABLE_STD . '.eventCategory', $this->eventCategory));
         }
 
         if ($this->productionCompanyName) {
             $this->subQuery->andWhere(
-                Db::parseParam('ticketsolve_shows.productionCompanyName', $this->productionCompanyName)
+                Db::parseParam(Show::TABLE_STD . '.productionCompanyName', $this->productionCompanyName)
             );
         }
 
         if ($this->venueId) {
-            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.venueId', $this->venueId));
+            $this->subQuery->andWhere(Db::parseParam(Show::TABLE_STD . '.venueId', $this->venueId));
         }
 
         if ($this->excludeShowRefs) {
-            $this->subQuery->andWhere(['not in', 'ticketsolve_shows.showRef', $this->excludeShowRefs]);
+            $this->subQuery->andWhere(['not in', Show::TABLE_STD . '.showRef', $this->excludeShowRefs]);
+        }
+
+        if ($this->tags) {
+            $tags = $this->tags;
+
+            // convert to an array of tag names, in case we have an array of tag models
+            array_walk($tags, function (&$value) {
+                $value = (string) $value;
+            });
+
+            $this->subQuery->andWhere([
+                'in',
+                Show::TABLE_STD . '.id',
+                (new Query())
+                    ->select(TagIndexRecord::TABLE . '.showId')
+                    ->distinct()
+                    ->from(TagIndexRecord::TABLE)
+                    ->innerJoin(
+                        TagRecord::TABLE,
+                        TagIndexRecord::TABLE . '.tagId = ' . TagRecord::TABLE . '.id'
+                    )
+                    ->where(['in', TagRecord::TABLE . '.name', $tags])
+            ]);
         }
 
         return parent::beforePrepare();

@@ -22,6 +22,9 @@ use devkokov\ticketsolve\elements\db\VenueQuery;
  */
 class Venue extends AbstractComparableElement
 {
+    const TABLE     = '{{%ticketsolve_venues}}';
+    const TABLE_STD = 'ticketsolve_venues';
+
     // Public Properties
     // =========================================================================
 
@@ -125,11 +128,11 @@ class Venue extends AbstractComparableElement
         if ($isNew) {
             $data['id'] = $this->id;
             \Craft::$app->db->createCommand()
-                ->insert('{{%ticketsolve_venues}}', $data)
+                ->insert(self::TABLE, $data)
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
-                ->update('{{%ticketsolve_venues}}', $data, ['id' => $this->id])
+                ->update(self::TABLE, $data, ['id' => $this->id])
                 ->execute();
         }
 

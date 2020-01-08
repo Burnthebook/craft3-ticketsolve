@@ -6,14 +6,11 @@ use craft\db\Migration;
 use devkokov\ticketsolve\elements\Event;
 use devkokov\ticketsolve\elements\Show;
 use devkokov\ticketsolve\elements\Venue;
+use devkokov\ticketsolve\records\TagRecord;
+use devkokov\ticketsolve\records\TagIndexRecord;
 
 class Install extends Migration
 {
-    const TABLE_VENUES = '{{%ticketsolve_venues}}';
-    const TABLE_SHOWS = '{{%ticketsolve_shows}}';
-    const TABLE_TAGS = '{{%ticketsolve_tags}}';
-    const TABLE_TAGS_INDEX = '{{%ticketsolve_tags_index}}';
-    const TABLE_EVENTS = '{{%ticketsolve_events}}';
     const TABLE_ELEMENTS = '{{%elements}}';
 
     public function safeUp()
@@ -35,11 +32,11 @@ class Install extends Migration
         ]]);
 
         // drop plugin's tables
-        $this->dropTableIfExists(self::TABLE_EVENTS);
-        $this->dropTableIfExists(self::TABLE_TAGS_INDEX);
-        $this->dropTableIfExists(self::TABLE_TAGS);
-        $this->dropTableIfExists(self::TABLE_SHOWS);
-        $this->dropTableIfExists(self::TABLE_VENUES);
+        $this->dropTableIfExists(Event::TABLE);
+        $this->dropTableIfExists(TagIndexRecord::TABLE);
+        $this->dropTableIfExists(TagRecord::TABLE);
+        $this->dropTableIfExists(Show::TABLE);
+        $this->dropTableIfExists(Venue::TABLE);
     }
 
     // Private Methods
@@ -47,11 +44,11 @@ class Install extends Migration
 
     private function createVenuesTable()
     {
-        if ($this->db->tableExists(self::TABLE_VENUES)) {
+        if ($this->db->tableExists(Venue::TABLE)) {
             return;
         }
 
-        $this->createTable(self::TABLE_VENUES, [
+        $this->createTable(Venue::TABLE, [
             'id' => $this->integer()->notNull(),
             'venueRef' => $this->bigInteger()->notNull(),
             'name' => $this->char(255)->notNull(),
@@ -62,16 +59,16 @@ class Install extends Migration
         ]);
 
         $this->createIndex(
-            $this->db->getIndexName(self::TABLE_VENUES, 'venueRef', true),
-            self::TABLE_VENUES,
+            $this->db->getIndexName(Venue::TABLE, 'venueRef', true),
+            Venue::TABLE,
             'venueRef',
             true
         );
 
         // give it a FK to the elements table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_VENUES, 'id'),
-            self::TABLE_VENUES,
+            $this->db->getForeignKeyName(Venue::TABLE, 'id'),
+            Venue::TABLE,
             'id',
             self::TABLE_ELEMENTS,
             'id',
@@ -82,11 +79,11 @@ class Install extends Migration
 
     private function createShowsTable()
     {
-        if ($this->db->tableExists(self::TABLE_SHOWS)) {
+        if ($this->db->tableExists(Show::TABLE)) {
             return;
         }
 
-        $this->createTable(self::TABLE_SHOWS, [
+        $this->createTable(Show::TABLE, [
             'id' => $this->integer()->notNull(),
             'venueId' => $this->integer()->notNull(),
             'showRef' => $this->bigInteger()->notNull(),
@@ -105,16 +102,16 @@ class Install extends Migration
         ]);
 
         $this->createIndex(
-            $this->db->getIndexName(self::TABLE_SHOWS, 'showRef', true),
-            self::TABLE_SHOWS,
+            $this->db->getIndexName(Show::TABLE, 'showRef', true),
+            Show::TABLE,
             'showRef',
             true
         );
 
         // give it a FK to the elements table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_SHOWS, 'id'),
-            self::TABLE_SHOWS,
+            $this->db->getForeignKeyName(Show::TABLE, 'id'),
+            Show::TABLE,
             'id',
             self::TABLE_ELEMENTS,
             'id',
@@ -124,10 +121,10 @@ class Install extends Migration
 
         // give it a FK to the venues table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_SHOWS, 'venueId'),
-            self::TABLE_SHOWS,
+            $this->db->getForeignKeyName(Show::TABLE, 'venueId'),
+            Show::TABLE,
             'venueId',
-            self::TABLE_VENUES,
+            Venue::TABLE,
             'id',
             'CASCADE',
             'CASCADE'
@@ -136,11 +133,11 @@ class Install extends Migration
 
     private function createEventsTable()
     {
-        if ($this->db->tableExists(self::TABLE_EVENTS)) {
+        if ($this->db->tableExists(Event::TABLE)) {
             return;
         }
 
-        $this->createTable(self::TABLE_EVENTS, [
+        $this->createTable(Event::TABLE, [
             'id' => $this->integer()->notNull(),
             'showId' => $this->integer()->notNull(),
             'eventRef' => $this->bigInteger()->notNull(),
@@ -166,16 +163,16 @@ class Install extends Migration
         ]);
 
         $this->createIndex(
-            $this->db->getIndexName(self::TABLE_EVENTS, 'eventRef', true),
-            self::TABLE_EVENTS,
+            $this->db->getIndexName(Event::TABLE, 'eventRef', true),
+            Event::TABLE,
             'eventRef',
             true
         );
 
         // give it a FK to the elements table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_EVENTS, 'id'),
-            self::TABLE_EVENTS,
+            $this->db->getForeignKeyName(Event::TABLE, 'id'),
+            Event::TABLE,
             'id',
             self::TABLE_ELEMENTS,
             'id',
@@ -185,10 +182,10 @@ class Install extends Migration
 
         // give it a FK to the shows table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_EVENTS, 'showId'),
-            self::TABLE_EVENTS,
+            $this->db->getForeignKeyName(Event::TABLE, 'showId'),
+            Event::TABLE,
             'showId',
-            self::TABLE_SHOWS,
+            Show::TABLE,
             'id',
             'CASCADE',
             'CASCADE'
@@ -197,11 +194,11 @@ class Install extends Migration
 
     private function createTagsTable()
     {
-        if ($this->db->tableExists(self::TABLE_TAGS)) {
+        if ($this->db->tableExists(TagRecord::TABLE)) {
             return;
         }
 
-        $this->createTable(self::TABLE_TAGS, [
+        $this->createTable(TagRecord::TABLE, [
             'id' => $this->integer()->notNull()->append('AUTO_INCREMENT'),
             'name' => $this->char(255)->notNull(),
             'dateCreated' => $this->dateTime()->notNull(),
@@ -211,8 +208,8 @@ class Install extends Migration
         ]);
 
         $this->createIndex(
-            $this->db->getIndexName(self::TABLE_TAGS, 'name', true),
-            self::TABLE_TAGS,
+            $this->db->getIndexName(TagRecord::TABLE, 'name', true),
+            TagRecord::TABLE,
             'name',
             true
         );
@@ -220,11 +217,11 @@ class Install extends Migration
 
     private function createTagsIndexTable()
     {
-        if ($this->db->tableExists(self::TABLE_TAGS_INDEX)) {
+        if ($this->db->tableExists(TagIndexRecord::TABLE)) {
             return;
         }
 
-        $this->createTable(self::TABLE_TAGS_INDEX, [
+        $this->createTable(TagIndexRecord::TABLE, [
             'id' => $this->integer()->notNull()->append('AUTO_INCREMENT'),
             'tagId' => $this->integer()->notNull(),
             'showId' => $this->integer()->notNull(),
@@ -236,10 +233,10 @@ class Install extends Migration
 
         // give it a FK to the tags table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_TAGS_INDEX, 'tagId'),
-            self::TABLE_TAGS_INDEX,
+            $this->db->getForeignKeyName(TagIndexRecord::TABLE, 'tagId'),
+            TagIndexRecord::TABLE,
             'tagId',
-            self::TABLE_TAGS,
+            TagRecord::TABLE,
             'id',
             'CASCADE',
             'CASCADE'
@@ -247,10 +244,10 @@ class Install extends Migration
 
         // give it a FK to the shows table
         $this->addForeignKey(
-            $this->db->getForeignKeyName(self::TABLE_TAGS_INDEX, 'showId'),
-            self::TABLE_TAGS_INDEX,
+            $this->db->getForeignKeyName(TagIndexRecord::TABLE, 'showId'),
+            TagIndexRecord::TABLE,
             'showId',
-            self::TABLE_SHOWS,
+            Show::TABLE,
             'id',
             'CASCADE',
             'CASCADE'

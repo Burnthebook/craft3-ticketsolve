@@ -24,6 +24,9 @@ use devkokov\ticketsolve\Ticketsolve;
  */
 class Show extends AbstractComparableElement
 {
+    const TABLE     = '{{%ticketsolve_shows}}';
+    const TABLE_STD = 'ticketsolve_shows';
+
     // Public Properties
     // =========================================================================
 
@@ -218,11 +221,11 @@ class Show extends AbstractComparableElement
         if ($isNew) {
             $data['id'] = $this->id;
             \Craft::$app->db->createCommand()
-                ->insert('{{%ticketsolve_shows}}', $data)
+                ->insert(self::TABLE, $data)
                 ->execute();
         } else {
             \Craft::$app->db->createCommand()
-                ->update('{{%ticketsolve_shows}}', $data, ['id' => $this->id])
+                ->update(self::TABLE, $data, ['id' => $this->id])
                 ->execute();
         }
 
