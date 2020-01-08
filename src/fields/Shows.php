@@ -10,9 +10,8 @@
 
 namespace devkokov\ticketsolve\fields;
 
-use craft\fields\BaseRelationField;
-
 use Craft;
+use craft\fields\BaseRelationField;
 use devkokov\ticketsolve\elements\Show;
 
 /**

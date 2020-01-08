@@ -11,9 +11,7 @@
 namespace devkokov\ticketsolve\elements;
 
 use Craft;
-use craft\db\Query;
 use craft\elements\db\ElementQueryInterface;
-use craft\helpers\ArrayHelper;
 use craft\helpers\DateTimeHelper;
 use craft\helpers\Db;
 use devkokov\ticketsolve\elements\db\EventQuery;
