@@ -116,7 +116,7 @@ class Show extends AbstractComparableElement
         return [
             [
                 'key' => '*',
-                'label' => 'All Shows',
+                'label' => Craft::t('ticketsolve', 'All Shows'),
                 'criteria' => []
             ],
         ];

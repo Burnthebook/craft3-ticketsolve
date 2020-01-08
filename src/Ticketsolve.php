@@ -179,9 +179,9 @@ class Ticketsolve extends Plugin
     {
         $item = parent::getCpNavItem();
         $item['subnav'] = [
-            'venues' => ['label' => 'Venues', 'url' => 'ticketsolve/venues'],
-            'shows' => ['label' => 'Shows', 'url' => 'ticketsolve/shows'],
-            'events' => ['label' => 'Events', 'url' => 'ticketsolve/events'],
+            'venues' => ['label' => Craft::t('ticketsolve', 'Venues'), 'url' => 'ticketsolve/venues'],
+            'shows' => ['label' => Craft::t('ticketsolve', 'Shows'), 'url' => 'ticketsolve/shows'],
+            'events' => ['label' => Craft::t('ticketsolve', 'Events'), 'url' => 'ticketsolve/events'],
         ];
         return $item;
     }

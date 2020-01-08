@@ -87,7 +87,7 @@ class Venue extends AbstractComparableElement
         return [
             [
                 'key' => '*',
-                'label' => 'All Venues',
+                'label' => Craft::t('ticketsolve', 'All Venues'),
                 'criteria' => []
             ],
         ];

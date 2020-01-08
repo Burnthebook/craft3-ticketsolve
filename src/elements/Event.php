@@ -129,7 +129,7 @@ class Event extends AbstractComparableElement
         return [
             [
                 'key' => '*',
-                'label' => 'All Events',
+                'label' => Craft::t('ticketsolve', 'All Events'),
                 'criteria' => []
             ],
         ];
