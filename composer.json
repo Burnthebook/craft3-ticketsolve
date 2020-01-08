@@ -38,7 +38,8 @@
         "changelogUrl": "https://raw.githubusercontent.com/devkokov/ticketsolve/master/CHANGELOG.md",
         "components": {
             "syncService": "devkokov\\ticketsolve\\services\\SyncService",
-            "tagsService": "devkokov\\ticketsolve\\services\\TagsService"
+            "tagsService": "devkokov\\ticketsolve\\services\\TagsService",
+            "twigService": "devkokov\\ticketsolve\\services\\TwigService"
         },
         "class": "devkokov\\ticketsolve\\Ticketsolve"
     }

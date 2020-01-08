@@ -12,6 +12,7 @@ namespace devkokov\ticketsolve\elements;
 
 use Craft;
 use craft\elements\db\ElementQueryInterface;
+use devkokov\ticketsolve\elements\db\ShowQuery;
 use devkokov\ticketsolve\elements\db\VenueQuery;
 
 /**
@@ -90,6 +91,14 @@ class Venue extends AbstractComparableElement
             [['name'], 'string'],
             [['name', 'venueRef'], 'required'],
         ];
+    }
+
+    /**
+     * @return ShowQuery
+     */
+    public function getShows()
+    {
+        return Show::find()->venueId($this->id);
     }
 
     // Events

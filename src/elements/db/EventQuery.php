@@ -10,6 +10,7 @@ class EventQuery extends ElementQuery
     public $eventRef;
     public $name;
     public $eventStatus;
+    public $showId;
     public $excludeEventRefs = [];
 
     public function eventRef($value)
@@ -29,6 +30,13 @@ class EventQuery extends ElementQuery
     public function eventStatus($value)
     {
         $this->eventStatus = $value;
+
+        return $this;
+    }
+
+    public function showId($value)
+    {
+        $this->showId = $value;
 
         return $this;
     }
@@ -74,6 +82,10 @@ class EventQuery extends ElementQuery
 
         if ($this->eventStatus) {
             $this->subQuery->andWhere(Db::parseParam('ticketsolve_events.eventStatus', $this->eventStatus));
+        }
+
+        if ($this->showId) {
+            $this->subQuery->andWhere(Db::parseParam('ticketsolve_events.showId', $this->showId));
         }
 
         if ($this->excludeEventRefs) {

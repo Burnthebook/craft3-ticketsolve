@@ -11,7 +11,9 @@
 namespace devkokov\ticketsolve\elements;
 
 use Craft;
+use craft\db\Query;
 use craft\elements\db\ElementQueryInterface;
+use craft\helpers\ArrayHelper;
 use craft\helpers\DateTimeHelper;
 use craft\helpers\Db;
 use devkokov\ticketsolve\elements\db\EventQuery;
@@ -43,6 +45,14 @@ class Event extends AbstractComparableElement
     public $feeCurrency;
     public $maximumTickets;
     public $prices = [];
+
+    // Private Properties
+    // =========================================================================
+
+    /** @var Show */
+    private $show;
+    /** @var Venue */
+    private $venue;
 
     // Static Methods
     // =========================================================================
@@ -166,6 +176,38 @@ class Event extends AbstractComparableElement
             [['name'], 'string'],
             [['name', 'eventRef'], 'required'],
         ];
+    }
+
+    /**
+     * @return Show|array|null
+     */
+    public function getShow()
+    {
+        if (!is_null($this->show)) {
+            return $this->show;
+        }
+
+        if (!$this->showId) {
+            return null;
+        }
+
+        return $this->show = Show::find()->id($this->showId)->one();
+    }
+
+    /**
+     * @return Venue|array|null
+     */
+    public function getVenue()
+    {
+        if (!is_null($this->venue)) {
+            return $this->venue;
+        }
+
+        if (!$this->getShow()) {
+            return null;
+        }
+
+        return $this->venue = Venue::find()->id($this->show->venueId)->one();
     }
 
     // Events

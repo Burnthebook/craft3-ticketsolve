@@ -12,7 +12,10 @@ namespace devkokov\ticketsolve\elements;
 
 use Craft;
 use craft\elements\db\ElementQueryInterface;
+use devkokov\ticketsolve\elements\db\EventQuery;
 use devkokov\ticketsolve\elements\db\ShowQuery;
+use devkokov\ticketsolve\models\TagModel;
+use devkokov\ticketsolve\Ticketsolve;
 
 /**
  * @author    Dimitar Kokov
@@ -34,6 +37,14 @@ class Show extends AbstractComparableElement
     public $url;
     public $version;
     public $images = [];
+
+    // Private Properties
+    // =========================================================================
+
+    /** @var Venue */
+    private $venue;
+    /** @var TagModel[] */
+    private $tags;
 
     // Static Methods
     // =========================================================================
@@ -63,20 +74,16 @@ class Show extends AbstractComparableElement
     protected static function defineSortOptions(): array
     {
         return [
-            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
-            'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
-            'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
+            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
         ];
     }
 
     protected static function defineTableAttributes(): array
     {
         return [
-            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
             'name' => \Craft::t('ticketsolve', 'Name'),
-            'eventCategory' => \Craft::t('ticketsolve', 'Event Category'),
-            'productionCompanyName' => \Craft::t('ticketsolve', 'Production Company Name'),
+            'showRef' => \Craft::t('ticketsolve', 'Show ID'),
         ];
     }
 
@@ -101,6 +108,17 @@ class Show extends AbstractComparableElement
         ];
     }
 
+    protected static function defineSources(string $context = null): array
+    {
+        return [
+            [
+                'key' => '*',
+                'label' => 'All Shows',
+                'criteria' => []
+            ],
+        ];
+    }
+
     // Public Methods
     // =========================================================================
 
@@ -121,6 +139,51 @@ class Show extends AbstractComparableElement
             [['name'], 'string'],
             [['name', 'showRef'], 'required'],
         ];
+    }
+
+    public function __toString()
+    {
+        if ($this->name) {
+            return $this->name;
+        }
+
+        return parent::__toString();
+    }
+
+    /**
+     * @return Venue|array|null
+     */
+    public function getVenue()
+    {
+        if (!is_null($this->venue)) {
+            return $this->venue;
+        }
+
+        if (!$this->venueId) {
+            return null;
+        }
+
+        return $this->venue = Venue::find()->id($this->venueId)->one();
+    }
+
+    /**
+     * @return EventQuery
+     */
+    public function getEvents()
+    {
+        return Event::find()->showId($this->id);
+    }
+
+    /**
+     * @return TagModel[]
+     */
+    public function getTags()
+    {
+        if (!is_null($this->tags)) {
+            return $this->tags;
+        }
+
+        return $this->tags = Ticketsolve::getInstance()->tagsService->getTagsFromShow($this, false);
     }
 
     // Events

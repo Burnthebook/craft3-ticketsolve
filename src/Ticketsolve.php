@@ -21,7 +21,7 @@ use devkokov\ticketsolve\models\Settings;
 use devkokov\ticketsolve\elements\Venue as VenueElement;
 use devkokov\ticketsolve\elements\Show as ShowElement;
 use devkokov\ticketsolve\elements\Event as EventElement;
-use devkokov\ticketsolve\fields\Show as ShowField;
+use devkokov\ticketsolve\fields\Shows as ShowsField;
 
 use Craft;
 use craft\base\Plugin;
@@ -32,8 +32,7 @@ use craft\services\Elements;
 use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
-
-use devkokov\ticketsolve\twig\CraftVariableBehavior;
+use devkokov\ticketsolve\services\TwigService;
 use yii\base\Event;
 use yii\db\Query;
 use yii\queue\ExecEvent;
@@ -47,6 +46,7 @@ use yii\queue\ExecEvent;
  *
  * @property  SyncService $syncService
  * @property  TagsService $tagsService
+ * @property  TwigService $twigService
  */
 class Ticketsolve extends Plugin
 {
@@ -120,7 +120,7 @@ class Ticketsolve extends Plugin
             Fields::class,
             Fields::EVENT_REGISTER_FIELD_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = ShowField::class;
+                $event->types[] = ShowsField::class;
             }
         );
 
@@ -160,10 +160,7 @@ class Ticketsolve extends Plugin
                 /** @var CraftVariable $variable */
                 $variable = $e->sender;
 
-                // Attach a behavior:
-                $variable->attachBehaviors([
-                    CraftVariableBehavior::class,
-                ]);
+                $variable->set('ticketsolve', TwigService::class);
             }
         );
 

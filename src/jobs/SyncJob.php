@@ -32,7 +32,7 @@ class SyncJob extends BaseJob
     {
         $job = $this;
 
-        Ticketsolve::getInstance()->ticketsolveService->syncFromXML(
+        Ticketsolve::getInstance()->syncService->syncFromXML(
             function ($progress, $label = null) use ($job, $queue) {
                 $job->setProgress($queue, $progress, $label);
             }

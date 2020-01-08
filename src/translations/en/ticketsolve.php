@@ -28,6 +28,8 @@ return [
     'Venue ID' => 'Venue ID',
     'Show' => 'Show',
     'Shows' => 'Shows',
+    'Ticketsolve Shows' => 'Ticketsolve Shows',
+    'Add a show' => 'Add a show',
     'Show ID' => 'Show ID',
     'Event' => 'Event',
     'Events' => 'Events',

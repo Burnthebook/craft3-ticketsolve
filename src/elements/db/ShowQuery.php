@@ -11,6 +11,7 @@ class ShowQuery extends ElementQuery
     public $name;
     public $eventCategory;
     public $productionCompanyName;
+    public $venueId;
     public $excludeShowRefs = [];
 
     public function showRef($value)
@@ -37,6 +38,13 @@ class ShowQuery extends ElementQuery
     public function productionCompanyName($value)
     {
         $this->productionCompanyName = $value;
+
+        return $this;
+    }
+
+    public function venueId($value)
+    {
+        $this->venueId = $value;
 
         return $this;
     }
@@ -81,6 +89,10 @@ class ShowQuery extends ElementQuery
             $this->subQuery->andWhere(
                 Db::parseParam('ticketsolve_shows.productionCompanyName', $this->productionCompanyName)
             );
+        }
+
+        if ($this->venueId) {
+            $this->subQuery->andWhere(Db::parseParam('ticketsolve_shows.venueId', $this->venueId));
         }
 
         if ($this->excludeShowRefs) {
