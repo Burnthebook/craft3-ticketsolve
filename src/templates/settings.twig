@@ -15,8 +15,6 @@
 
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("devkokov\\ticketsolve\\assetbundles\\ticketsolve\\TicketsolveAsset") %}
-
 {{ forms.textField({
     label: 'URL'|t('ticketsolve'),
     instructions: 'Enter the URL to your Ticketsolve XML feed.'|t('ticketsolve'),
