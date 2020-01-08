@@ -10,13 +10,16 @@
 
 namespace devkokov\ticketsolve\services;
 
+use craft\db\Table;
 use devkokov\ticketsolve\elements\Event;
 use devkokov\ticketsolve\elements\Show;
 use devkokov\ticketsolve\elements\Venue;
+use devkokov\ticketsolve\jobs\SyncJob;
 use devkokov\ticketsolve\Ticketsolve;
 
 use Craft;
 use craft\base\Component;
+use yii\db\Query;
 
 /**
  * @author    Dimitar Kokov
@@ -210,6 +213,45 @@ class SyncService extends Component
         echo "Deleted " . $this->tagsService()->deleteAllTagsExcept($tagNames) . " tags. \n";
 
         echo "Sync finished. \n";
+    }
+
+    /**
+     * @param bool $includeManualSyncJobs
+     * @return array
+     */
+    public function getQueuedSyncJobs($includeManualSyncJobs = false)
+    {
+        $query = (new Query())
+            ->from(Table::QUEUE)
+            ->where(['description' => SyncJob::getDefaultDescription()]);
+
+        if ($includeManualSyncJobs) {
+            $query->orWhere(['description' => SyncJob::getDefaultManualDescription()]);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * @param bool $includingManualSyncJobs
+     */
+    public function removeQueuedSyncJobs($includingManualSyncJobs = false)
+    {
+        foreach ($this->getQueuedSyncJobs($includingManualSyncJobs) as $job) {
+            Craft::$app->queue->release($job['id']);
+        }
+    }
+
+    /**
+     * @param int $delay in seconds
+     * @param bool $manual If the sync is triggered manually by a user
+     */
+    public function queueSyncJob($delay = 0, $manual = false)
+    {
+        $job = new SyncJob();
+        $job->manual = $manual;
+
+        Craft::$app->queue->delay($delay)->push($job);
     }
 
     // Private Methods

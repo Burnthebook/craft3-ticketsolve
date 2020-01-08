@@ -23,15 +23,11 @@
 
 {% set title = "Ticketsolve" %}
 
-{% set pluginCpUrl = url('ticketsolve') %}
-
 {% set iconUrl = view.getAssetManager().getPublishedUrl('@devkokov/ticketsolve/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
 
-{% set extraPageHeaderHtml %}
-    <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('ticketsolve') }}</a>
-    </div>
-{% endset %}
+{% block actionButton %}
+    <a href="{{ url('ticketsolve/sync-now') }}" class="btn submit">{{ 'Sync Now'|t('ticketsolve') }}</a>
+{% endblock %}
 
 {% set content %}
     <h2>{{ "Index CP Section body goes here"|t('ticketsolve') }}</h2>

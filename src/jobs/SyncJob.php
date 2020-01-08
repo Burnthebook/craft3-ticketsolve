@@ -25,6 +25,11 @@ class SyncJob extends BaseJob
     // Public Methods
     // =========================================================================
 
+    public $manual = false;
+
+    // Public Methods
+    // =========================================================================
+
     /**
      * @inheritdoc
      */
@@ -44,6 +49,11 @@ class SyncJob extends BaseJob
         return Craft::t('ticketsolve', 'Ticketsolve Sync');
     }
 
+    public static function getDefaultManualDescription(): string
+    {
+        return Craft::t('ticketsolve', 'Ticketsolve Sync (Manual)');
+    }
+
     // Protected Methods
     // =========================================================================
 
@@ -52,6 +62,6 @@ class SyncJob extends BaseJob
      */
     protected function defaultDescription(): string
     {
-        return self::getDefaultDescription();
+        return $this->manual ? self::getDefaultManualDescription() : self::getDefaultDescription();
     }
 }

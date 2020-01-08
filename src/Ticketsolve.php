@@ -11,7 +11,6 @@
 namespace devkokov\ticketsolve;
 
 use craft\console\Application as ConsoleApplication;
-use craft\db\Table;
 use craft\queue\Queue;
 use craft\web\twig\variables\CraftVariable;
 use devkokov\ticketsolve\jobs\SyncJob;
@@ -33,8 +32,10 @@ use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use devkokov\ticketsolve\services\TwigService;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
-use yii\db\Query;
 use yii\queue\ExecEvent;
 
 /**
@@ -102,7 +103,7 @@ class Ticketsolve extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'ticketsolve/default/do-something';
+                $event->rules['ticketsolve/sync-now'] = 'ticketsolve/admin/sync-now';
             }
         );
 
@@ -129,17 +130,17 @@ class Ticketsolve extends Plugin
             /** @var ExecEvent $event */
             $settings = Ticketsolve::getInstance()->getSettings();
             if ($event->job instanceof SyncJob && $settings->autoSync) {
-                $event->sender->delay($settings->syncDelay)->push(new SyncJob());
+                $this->syncService->queueSyncJob($settings->syncDelay);
             }
         });
 
         if ($this->getSettings()->autoSync) {
             // ensure there's a sync job in the queue e.g. if autoSync was enabled post-install
-            if (empty($this->getQueuedSyncJobs())) {
-                Craft::$app->queue->delay($this->getSettings()->syncDelay)->push(new SyncJob());
+            if (empty($this->syncService->getQueuedSyncJobs(true))) {
+                $this->syncService->queueSyncJob($this->getSettings()->syncDelay);
             }
         } else {
-            $this->removeQueuedSyncJobs();
+            $this->syncService->removeQueuedSyncJobs();
         }
 
         Event::on(
@@ -149,7 +150,7 @@ class Ticketsolve extends Plugin
                 if ($event->plugin !== $this) {
                     return;
                 }
-                $this->removeQueuedSyncJobs();
+                $this->syncService->removeQueuedSyncJobs(true);
             }
         );
 
@@ -174,6 +175,18 @@ class Ticketsolve extends Plugin
         );
     }
 
+    public function getCpNavItem()
+    {
+        $item = parent::getCpNavItem();
+        $item['subnav'] = [
+            'dashboard' => ['label' => 'Dashboard', 'url' => 'ticketsolve'],
+            'venues' => ['label' => 'Venues', 'url' => 'ticketsolve/venues'],
+            'shows' => ['label' => 'Shows', 'url' => 'ticketsolve/shows'],
+            'events' => ['label' => 'Events', 'url' => 'ticketsolve/events'],
+        ];
+        return $item;
+    }
+
     // Protected Methods
     // =========================================================================
 
@@ -186,7 +199,10 @@ class Ticketsolve extends Plugin
     }
 
     /**
-     * @inheritdoc
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function settingsHtml(): string
     {
@@ -196,23 +212,5 @@ class Ticketsolve extends Plugin
                 'settings' => $this->getSettings()
             ]
         );
-    }
-
-    // Private Methods
-    // =========================================================================
-
-    private function getQueuedSyncJobs()
-    {
-        return (new Query())
-            ->from(Table::QUEUE)
-            ->where(['description' => SyncJob::getDefaultDescription()])
-            ->all();
-    }
-
-    private function removeQueuedSyncJobs()
-    {
-        foreach ($this->getQueuedSyncJobs() as $job) {
-            Craft::$app->queue->release($job['id']);
-        }
     }
 }

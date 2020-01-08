@@ -16,11 +16,13 @@
 return [
     'Ticketsolve plugin loaded' => 'Ticketsolve plugin loaded',
     'Ticketsolve Sync' => 'Ticketsolve Sync',
+    'Ticketsolve Sync (Manual)' => 'Ticketsolve Sync (Manual)',
     'URL' => 'URL',
     'Enter the URL to your Ticketsolve XML feed.' => 'Enter the URL to your Ticketsolve XML feed.',
     'Auto Sync' => 'Auto Sync',
     'Automatically sync from the XML feed.' => 'Automatically sync from the XML feed.',
     'Sync interval' => 'Sync interval',
+    'Sync Now' => 'Sync Now',
     'minutes' => 'minutes',
     'Name' => 'Name',
     'Venue' => 'Venue',
