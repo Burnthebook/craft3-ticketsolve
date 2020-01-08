@@ -10,10 +10,10 @@
 
 namespace devkokov\ticketsolve\jobs;
 
-use devkokov\ticketsolve\Ticketsolve;
-
 use Craft;
+use Throwable;
 use craft\queue\BaseJob;
+use devkokov\ticketsolve\Ticketsolve;
 
 /**
  * @author    Dimitar Kokov
@@ -31,17 +31,18 @@ class SyncJob extends BaseJob
     // =========================================================================
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @throws Throwable
      */
     public function execute($queue)
     {
         $job = $this;
 
-        Ticketsolve::getInstance()->syncService->syncFromXML(
-            function ($progress, $label = null) use ($job, $queue) {
-                $job->setProgress($queue, $progress, $label);
-            }
-        );
+        $setProgressFunction = function ($progress, $label = null) use ($job, $queue) {
+            $job->setProgress($queue, $progress, $label);
+        };
+
+        Ticketsolve::getInstance()->syncService->startXMLFeedSync($setProgressFunction);
     }
 
     public static function getDefaultDescription(): string
