@@ -2,7 +2,7 @@
     "name": "devkokov/craft3-ticketsolve",
     "description": "Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "craft",
         "cms",
