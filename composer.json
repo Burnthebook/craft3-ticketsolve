@@ -11,8 +11,8 @@
         "ticketsolve"
     ],
     "support": {
-        "docs": "https://github.com/devkokov/ticketsolve/blob/master/README.md",
-        "issues": "https://github.com/devkokov/ticketsolve/issues"
+        "docs": "https://github.com/devkokov/craft3-ticketsolve/blob/master/README.md",
+        "issues": "https://github.com/devkokov/craft3-ticketsolve/issues"
     },
     "license": "MIT",
     "authors": [
@@ -35,7 +35,7 @@
         "handle": "ticketsolve",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/devkokov/ticketsolve/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/devkokov/craft3-ticketsolve/master/CHANGELOG.md",
         "components": {
             "syncService": "devkokov\\ticketsolve\\services\\SyncService",
             "tagsService": "devkokov\\ticketsolve\\services\\TagsService",
