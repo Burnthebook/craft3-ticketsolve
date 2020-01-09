@@ -2,7 +2,7 @@
 
 This plugin will pull Venues, Shows and Events from a Ticketsolve XML feed and store them for easy access in your Craft website.
 
-The AutoSync feature will keep your site in sync with Ticketsolve by updating every 15 minutes. There's also the option the sync manually with the click of a button.
+The AutoSync feature will keep your site in sync with Ticketsolve by updating every 15 minutes. There's also the option to sync manually with the click of a button.
 
 A new field type called "Ticketsolve Shows" lets you relate Shows to your site's entries.
 
@@ -25,11 +25,11 @@ To install the plugin, follow these instructions.
 
 1. Open your terminal and go to your Craft project:
 
-        cd /path/to/project
+       cd /path/to/project
 
 2. Then tell Composer to load the plugin:
 
-        composer require devkokov/craft3-ticketsolve
+       composer require devkokov/craft3-ticketsolve
 
 3. In the Control Panel, go to Settings → Plugins and click the "Install" button for Ticketsolve.
 
@@ -119,18 +119,18 @@ Show elements have the following properties:
 - `events` - Returns an Events query object pre-filtered for this show's Events. See [Events](#events).
 - `images` - An array of images with the following structure:
 
-        [
-            [
-                'large' => 'https://exmaple.com/image1.jpg',
-                'medium' => 'https://exmaple.com/image2.jpg',
-                'thumb' => 'https://exmaple.com/image3.jpg'
-            ],
-            [
-                'large' => 'https://exmaple.com/image4.jpg',
-                'medium' => 'https://exmaple.com/image5.jpg',
-                'thumb' => 'https://exmaple.com/image6.jpg'
-            ]
-        ]
+      [
+          [
+              'large' => 'https://exmaple.com/image1.jpg',
+              'medium' => 'https://exmaple.com/image2.jpg',
+              'thumb' => 'https://exmaple.com/image3.jpg'
+          ],
+          [
+              'large' => 'https://exmaple.com/image4.jpg',
+              'medium' => 'https://exmaple.com/image5.jpg',
+              'thumb' => 'https://exmaple.com/image6.jpg'
+          ]
+      ]
 
 ## Events
 
@@ -175,30 +175,30 @@ Event elements have the following properties:
 - `venue` - Returns the Event's associated Venue. See [Venues](#venues).
 - `prices` - An array of prices with the following structure:
 
-        [
-            [
-                'type' => 'Standard',
-                'facePrice' => [
-                    'value' => 5.5,
-                    'currency' => 'GBP'
-                ],
-                'sellingPrice' => [
-                    'value' => 5,
-                    'currency' => 'GBP'
-                ]
-            ],
-            [
-                'type' => 'Premium',
-                'facePrice' => [
-                    'value' => 8.5,
-                    'currency' => 'GBP'
-                ],
-                'sellingPrice' => [
-                    'value' => 8,
-                    'currency' => 'GBP'
-                ]
-            ]
-        ]
+      [
+          [
+              'type' => 'Standard',
+              'facePrice' => [
+                  'value' => 5.5,
+                  'currency' => 'GBP'
+              ],
+              'sellingPrice' => [
+                  'value' => 5,
+                  'currency' => 'GBP'
+              ]
+          ],
+          [
+              'type' => 'Premium',
+              'facePrice' => [
+                  'value' => 8.5,
+                  'currency' => 'GBP'
+              ],
+              'sellingPrice' => [
+                  'value' => 8,
+                  'currency' => 'GBP'
+              ]
+          ]
+      ]
 
 ## Syncing
 
