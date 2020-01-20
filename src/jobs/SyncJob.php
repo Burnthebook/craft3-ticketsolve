@@ -4,8 +4,8 @@
  *
  * Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.
  *
- * @link      https://github.com/devkokov
- * @copyright Copyright (c) 2019 Dimitar Kokov
+ * @link      https://github.com/Burnthebook
+ * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
 namespace devkokov\ticketsolve\jobs;

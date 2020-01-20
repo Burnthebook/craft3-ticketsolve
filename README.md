@@ -210,4 +210,4 @@ For more robust syncing, you can disable Auto Sync in the plugin settings and tr
 
 ---
 
-Brought to you by [Dimitar Kokov](https://github.com/devkokov)
+Brought to you by [Burnthebook](https://www.burnthebook.co.uk)
