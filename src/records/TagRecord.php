@@ -8,10 +8,10 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\records;
+namespace burnthebook\ticketsolve\records;
 
 use craft\db\ActiveRecord;
-use devkokov\ticketsolve\models\TagModel;
+use burnthebook\ticketsolve\models\TagModel;
 
 /**
  * @property int    $id

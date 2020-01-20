@@ -8,16 +8,16 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\services;
+namespace burnthebook\ticketsolve\services;
 
 use Craft;
 use craft\base\Component;
-use devkokov\ticketsolve\elements\db\EventQuery;
-use devkokov\ticketsolve\elements\db\ShowQuery;
-use devkokov\ticketsolve\elements\db\VenueQuery;
-use devkokov\ticketsolve\elements\Event;
-use devkokov\ticketsolve\elements\Show;
-use devkokov\ticketsolve\elements\Venue;
+use burnthebook\ticketsolve\elements\db\EventQuery;
+use burnthebook\ticketsolve\elements\db\ShowQuery;
+use burnthebook\ticketsolve\elements\db\VenueQuery;
+use burnthebook\ticketsolve\elements\Event;
+use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\elements\Venue;
 
 class TwigService extends Component
 {

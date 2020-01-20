@@ -8,14 +8,14 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\migrations;
+namespace burnthebook\ticketsolve\migrations;
 
 use craft\db\Migration;
-use devkokov\ticketsolve\elements\Event;
-use devkokov\ticketsolve\elements\Show;
-use devkokov\ticketsolve\elements\Venue;
-use devkokov\ticketsolve\records\TagRecord;
-use devkokov\ticketsolve\records\TagIndexRecord;
+use burnthebook\ticketsolve\elements\Event;
+use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\elements\Venue;
+use burnthebook\ticketsolve\records\TagRecord;
+use burnthebook\ticketsolve\records\TagIndexRecord;
 
 class Install extends Migration
 {

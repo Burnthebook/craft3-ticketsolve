@@ -8,13 +8,13 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements;
+namespace burnthebook\ticketsolve\elements;
 
 use Craft;
 use craft\elements\db\ElementQueryInterface;
 use craft\helpers\DateTimeHelper;
 use craft\helpers\Db;
-use devkokov\ticketsolve\elements\db\EventQuery;
+use burnthebook\ticketsolve\elements\db\EventQuery;
 
 /**
  * @author    Dimitar Kokov

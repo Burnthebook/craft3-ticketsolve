@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements;
+namespace burnthebook\ticketsolve\elements;
 
 use Craft;
 use craft\elements\db\ElementQueryInterface;
-use devkokov\ticketsolve\elements\db\ShowQuery;
-use devkokov\ticketsolve\elements\db\VenueQuery;
+use burnthebook\ticketsolve\elements\db\ShowQuery;
+use burnthebook\ticketsolve\elements\db\VenueQuery;
 
 /**
  * @author    Dimitar Kokov

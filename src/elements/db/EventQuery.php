@@ -8,11 +8,11 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements\db;
+namespace burnthebook\ticketsolve\elements\db;
 
 use craft\elements\db\ElementQuery;
 use craft\helpers\Db;
-use devkokov\ticketsolve\elements\Event;
+use burnthebook\ticketsolve\elements\Event;
 
 class EventQuery extends ElementQuery
 {

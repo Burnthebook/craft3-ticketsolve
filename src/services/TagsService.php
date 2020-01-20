@@ -8,13 +8,13 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\services;
+namespace burnthebook\ticketsolve\services;
 
 use craft\base\Component;
-use devkokov\ticketsolve\elements\Show;
-use devkokov\ticketsolve\models\TagModel;
-use devkokov\ticketsolve\records\TagIndexRecord;
-use devkokov\ticketsolve\records\TagRecord;
+use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\models\TagModel;
+use burnthebook\ticketsolve\records\TagIndexRecord;
+use burnthebook\ticketsolve\records\TagRecord;
 
 /**
  * @author    Dimitar Kokov

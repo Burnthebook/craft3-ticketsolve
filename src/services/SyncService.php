@@ -8,15 +8,15 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\services;
+namespace burnthebook\ticketsolve\services;
 
 use Craft;
 use Throwable;
 use craft\base\Component;
 use craft\db\Table;
 use yii\db\Query;
-use devkokov\ticketsolve\jobs\SyncJob;
-use devkokov\ticketsolve\sync\XMLFeedSync;
+use burnthebook\ticketsolve\jobs\SyncJob;
+use burnthebook\ticketsolve\sync\XMLFeedSync;
 
 /**
  * @author    Dimitar Kokov

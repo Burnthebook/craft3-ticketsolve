@@ -8,14 +8,14 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements;
+namespace burnthebook\ticketsolve\elements;
 
 use Craft;
 use craft\elements\db\ElementQueryInterface;
-use devkokov\ticketsolve\elements\db\EventQuery;
-use devkokov\ticketsolve\elements\db\ShowQuery;
-use devkokov\ticketsolve\models\TagModel;
-use devkokov\ticketsolve\Ticketsolve;
+use burnthebook\ticketsolve\elements\db\EventQuery;
+use burnthebook\ticketsolve\elements\db\ShowQuery;
+use burnthebook\ticketsolve\models\TagModel;
+use burnthebook\ticketsolve\Ticketsolve;
 
 /**
  * @author    Dimitar Kokov

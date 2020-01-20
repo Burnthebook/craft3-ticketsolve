@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\records;
+namespace burnthebook\ticketsolve\records;
 
 use craft\db\ActiveRecord;
 

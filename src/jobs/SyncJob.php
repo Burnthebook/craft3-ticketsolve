@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\jobs;
+namespace burnthebook\ticketsolve\jobs;
 
 use Craft;
 use Throwable;
 use craft\queue\BaseJob;
-use devkokov\ticketsolve\Ticketsolve;
+use burnthebook\ticketsolve\Ticketsolve;
 
 /**
  * @author    Dimitar Kokov

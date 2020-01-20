@@ -8,18 +8,18 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\sync;
+namespace burnthebook\ticketsolve\sync;
 
 use Craft;
 use SimpleXMLElement;
 use DateTime;
 use DateTimeZone;
 use Throwable;
-use devkokov\ticketsolve\services\TagsService;
-use devkokov\ticketsolve\elements\Event;
-use devkokov\ticketsolve\elements\Show;
-use devkokov\ticketsolve\elements\Venue;
-use devkokov\ticketsolve\Ticketsolve;
+use burnthebook\ticketsolve\services\TagsService;
+use burnthebook\ticketsolve\elements\Event;
+use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\elements\Venue;
+use burnthebook\ticketsolve\Ticketsolve;
 
 class XMLFeedSync
 {

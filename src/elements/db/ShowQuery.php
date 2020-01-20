@@ -8,14 +8,14 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements\db;
+namespace burnthebook\ticketsolve\elements\db;
 
 use craft\db\Query;
 use craft\elements\db\ElementQuery;
 use craft\helpers\Db;
-use devkokov\ticketsolve\elements\Show;
-use devkokov\ticketsolve\records\TagIndexRecord;
-use devkokov\ticketsolve\records\TagRecord;
+use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\records\TagIndexRecord;
+use burnthebook\ticketsolve\records\TagRecord;
 
 class ShowQuery extends ElementQuery
 {

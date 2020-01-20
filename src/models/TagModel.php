@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\models;
+namespace burnthebook\ticketsolve\models;
 
 use craft\base\Model;
 

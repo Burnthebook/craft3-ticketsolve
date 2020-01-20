@@ -8,11 +8,11 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\fields;
+namespace burnthebook\ticketsolve\fields;
 
 use Craft;
 use craft\fields\BaseRelationField;
-use devkokov\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\elements\Show;
 
 /**
  * @author    Dimitar Kokov

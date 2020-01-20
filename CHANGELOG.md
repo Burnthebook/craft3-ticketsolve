@@ -11,3 +11,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 1.0.1 - 2020-01-09
 ### Changed
 - Fixed repo URLs in composer.json
+
+## 1.1.0 - 2020-01-21
+### Changed
+- Changed attribution to Burnthebook Ltd.
+- Changed namespaces to burnthebook\ticketsolve
+- Moved repository to https://github.com/Burnthebook/craft3-ticketsolve
+- Moved composer package to burnthebook/craft3-ticketsolve

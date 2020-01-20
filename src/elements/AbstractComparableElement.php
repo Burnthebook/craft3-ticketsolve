@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements;
+namespace burnthebook\ticketsolve\elements;
 
 use craft\base\Element;
 use craft\base\ElementInterface;

@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\controllers;
+namespace burnthebook\ticketsolve\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
-use devkokov\ticketsolve\Ticketsolve;
+use burnthebook\ticketsolve\Ticketsolve;
 
 /**
  * @author    Dimitar Kokov

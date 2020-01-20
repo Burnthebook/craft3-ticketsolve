@@ -1,8 +1,8 @@
 {
-    "name": "devkokov/craft3-ticketsolve",
+    "name": "burnthebook/craft3-ticketsolve",
     "description": "Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.",
     "type": "craft-plugin",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "keywords": [
         "craft",
         "cms",
@@ -11,8 +11,8 @@
         "ticketsolve"
     ],
     "support": {
-        "docs": "https://github.com/devkokov/craft3-ticketsolve/blob/master/README.md",
-        "issues": "https://github.com/devkokov/craft3-ticketsolve/issues"
+        "docs": "https://github.com/Burnthebook/craft3-ticketsolve/blob/master/README.md",
+        "issues": "https://github.com/Burnthebook/craft3-ticketsolve/issues"
     },
     "license": "MIT",
     "authors": [
@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-          "devkokov\\ticketsolve\\": "src/"
+          "burnthebook\\ticketsolve\\": "src/"
         }
     },
     "extra": {
@@ -35,12 +35,12 @@
         "handle": "ticketsolve",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/devkokov/craft3-ticketsolve/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/Burnthebook/craft3-ticketsolve/master/CHANGELOG.md",
         "components": {
-            "syncService": "devkokov\\ticketsolve\\services\\SyncService",
-            "tagsService": "devkokov\\ticketsolve\\services\\TagsService",
-            "twigService": "devkokov\\ticketsolve\\services\\TwigService"
+            "syncService": "burnthebook\\ticketsolve\\services\\SyncService",
+            "tagsService": "burnthebook\\ticketsolve\\services\\TagsService",
+            "twigService": "burnthebook\\ticketsolve\\services\\TwigService"
         },
-        "class": "devkokov\\ticketsolve\\Ticketsolve"
+        "class": "burnthebook\\ticketsolve\\Ticketsolve"
     }
 }

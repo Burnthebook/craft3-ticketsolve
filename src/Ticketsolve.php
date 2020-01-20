@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve;
+namespace burnthebook\ticketsolve;
 
 use Craft;
 use craft\base\Plugin;
@@ -27,15 +27,15 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use yii\base\Event;
 use yii\queue\ExecEvent;
-use devkokov\ticketsolve\jobs\SyncJob;
-use devkokov\ticketsolve\services\TagsService;
-use devkokov\ticketsolve\services\SyncService;
-use devkokov\ticketsolve\services\TwigService;
-use devkokov\ticketsolve\models\Settings;
-use devkokov\ticketsolve\elements\Venue as VenueElement;
-use devkokov\ticketsolve\elements\Show as ShowElement;
-use devkokov\ticketsolve\elements\Event as EventElement;
-use devkokov\ticketsolve\fields\Shows as ShowsField;
+use burnthebook\ticketsolve\jobs\SyncJob;
+use burnthebook\ticketsolve\services\TagsService;
+use burnthebook\ticketsolve\services\SyncService;
+use burnthebook\ticketsolve\services\TwigService;
+use burnthebook\ticketsolve\models\Settings;
+use burnthebook\ticketsolve\elements\Venue as VenueElement;
+use burnthebook\ticketsolve\elements\Show as ShowElement;
+use burnthebook\ticketsolve\elements\Event as EventElement;
+use burnthebook\ticketsolve\fields\Shows as ShowsField;
 
 /**
  * Class Ticketsolve
@@ -87,7 +87,7 @@ class Ticketsolve extends Plugin
 
         // Add in our console commands
         if (Craft::$app instanceof ConsoleApplication) {
-            $this->controllerNamespace = 'devkokov\ticketsolve\console\controllers';
+            $this->controllerNamespace = 'burnthebook\ticketsolve\console\controllers';
         }
 
         Event::on(

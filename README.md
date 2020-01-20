@@ -29,7 +29,7 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-       composer require devkokov/craft3-ticketsolve
+       composer require burnthebook/craft3-ticketsolve
 
 3. In the Control Panel, go to Settings → Plugins and click the "Install" button for Ticketsolve.
 

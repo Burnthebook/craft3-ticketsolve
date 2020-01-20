@@ -8,11 +8,11 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\elements\db;
+namespace burnthebook\ticketsolve\elements\db;
 
 use craft\elements\db\ElementQuery;
 use craft\helpers\Db;
-use devkokov\ticketsolve\elements\Venue;
+use burnthebook\ticketsolve\elements\Venue;
 
 class VenueQuery extends ElementQuery
 {

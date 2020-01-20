@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2020 Burnthebook Ltd.
  */
 
-namespace devkokov\ticketsolve\console\controllers;
+namespace burnthebook\ticketsolve\console\controllers;
 
 use Throwable;
 use yii\console\Controller;
 use yii\console\ExitCode;
-use devkokov\ticketsolve\Ticketsolve;
+use burnthebook\ticketsolve\Ticketsolve;
 
 class FeedController extends Controller
 {
