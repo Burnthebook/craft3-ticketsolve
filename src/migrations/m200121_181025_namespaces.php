@@ -8,9 +8,9 @@ use burnthebook\ticketsolve\elements\Show;
 use burnthebook\ticketsolve\elements\Venue;
 
 /**
- * m200120_170525_namespaces migration.
+ * m200121_181025_namespaces migration.
  */
-class m200120_170525_namespaces extends Migration
+class m200121_181025_namespaces extends Migration
 {
     /**
      * @inheritdoc
@@ -30,7 +30,7 @@ class m200120_170525_namespaces extends Migration
                     'type' => $elementClass
                 ],
                 [
-                    'type' => str_replace('burnthebook\ticketsolve', 'burnthebook\ticketsolve', $elementClass)
+                    'type' => str_replace('burnthebook\ticketsolve', 'devkokov\ticketsolve', $elementClass)
                 ],
                 [],
                 false
@@ -45,7 +45,7 @@ class m200120_170525_namespaces extends Migration
      */
     public function safeDown()
     {
-        echo "m200120_170525_namespaces cannot be reverted.\n";
+        echo "m200121_181025_namespaces cannot be reverted.\n";
         return false;
     }
 }

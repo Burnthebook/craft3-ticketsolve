@@ -18,3 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Changed namespaces to burnthebook\ticketsolve
 - Moved repository to https://github.com/Burnthebook/craft3-ticketsolve
 - Moved composer package to burnthebook/craft3-ticketsolve
+
+## 1.1.1 - 2020-01-21
+### Fixed
+- Fixed namespaces migration
