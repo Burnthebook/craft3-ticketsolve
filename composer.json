@@ -27,14 +27,18 @@
     },
     "autoload": {
         "psr-4": {
-          "burnthebook\\ticketsolve\\": "src/"
+            "burnthebook\\ticketsolve\\": "src/"
         }
     },
     "extra": {
+        "schemaVersion": "1.1.0",
         "name": "Ticketsolve",
         "handle": "ticketsolve",
         "hasCpSettings": true,
         "hasCpSection": true,
+        "developer": "Burnthebook",
+        "developerUrl": "https://www.burnthebook.co.uk",
+        "documentationUrl": "https://github.com/Burnthebook/craft3-ticketsolve/blob/master/README.md",
         "changelogUrl": "https://raw.githubusercontent.com/Burnthebook/craft3-ticketsolve/master/CHANGELOG.md",
         "components": {
             "syncService": "burnthebook\\ticketsolve\\services\\SyncService",
