@@ -22,3 +22,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 1.1.1 - 2020-01-21
 ### Fixed
 - Fixed namespaces migration
+
+## 1.1.2 - 2020-01-22
+### Added
+- Migration for updating Shows field namespace

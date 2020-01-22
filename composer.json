@@ -2,7 +2,7 @@
     "name": "burnthebook/craft3-ticketsolve",
     "description": "Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.",
     "type": "craft-plugin",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "keywords": [
         "craft",
         "cms",
@@ -31,7 +31,7 @@
         }
     },
     "extra": {
-        "schemaVersion": "1.1.1",
+        "schemaVersion": "1.1.2",
         "name": "Ticketsolve",
         "handle": "ticketsolve",
         "hasCpSettings": true,
