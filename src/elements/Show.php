@@ -40,8 +40,6 @@ class Show extends AbstractComparableElement
     public $url;
     public $version;
     public $images = [];
-    public $nextEventId;
-    public $nextEventDate;
 
     // Private Properties
     // =========================================================================
@@ -50,10 +48,6 @@ class Show extends AbstractComparableElement
     private $venue;
     /** @var TagModel[] */
     private $tags;
-    /** @var Event */
-    private $nextEvent;
-    /** @var Event */
-    private $lastEvent;
 
     // Static Methods
     // =========================================================================
@@ -139,6 +133,13 @@ class Show extends AbstractComparableElement
         $this->images = (array)\GuzzleHttp\json_decode($value, true);
     }
 
+    public function setEventDateTime($value)
+    {
+        // intentionally blank.
+        // we don't want to assign this to shows because it's ambiguous.
+        // we use it for ordering only.
+    }
+
     /**
      * @inheritdoc
      */
@@ -181,33 +182,6 @@ class Show extends AbstractComparableElement
     public function getEvents()
     {
         return Event::find()->showId($this->id);
-    }
-
-    /**
-     * @return Event|array|null
-     */
-    public function getNextEvent()
-    {
-        if (!is_null($this->nextEvent)) {
-            return $this->nextEvent;
-        }
-
-        $this->nextEvent = Event::find()->orderBy('dateTime asc')->one();
-        $this->nextEventId = $this->nextEvent->id;
-
-        return $this->nextEvent;
-    }
-
-    /**
-     * @return Event|array|null
-     */
-    public function getLastEvent()
-    {
-        if (!is_null($this->lastEvent)) {
-            return $this->lastEvent;
-        }
-
-        return $this->lastEvent = Event::find()->orderBy('dateTime desc')->one();
     }
 
     /**
