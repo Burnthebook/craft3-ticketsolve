@@ -57,6 +57,36 @@ class EventQuery extends ElementQuery
         return $this;
     }
 
+    public function orderBy($columns)
+    {
+        parent::orderBy($columns);
+
+        if (!is_array($this->orderBy)) {
+            return $this;
+        }
+
+        /*
+         * Sometimes the columns we want to order by don't match the column names in the databases,
+         * so we need to do some mapping
+         */
+        $columnMapping = [
+            'dateTime' => 'dateTimeString',
+            'openingTime' => 'openingTimeString',
+            'onSaleTime' => 'onSaleTimeString'
+        ];
+
+        foreach ($columnMapping as $from => $to) {
+            if (!isset($this->orderBy[$from])) {
+                continue;
+            }
+
+            $this->orderBy[$to] = $this->orderBy[$from];
+            unset($this->orderBy[$from]);
+        }
+
+        return $this;
+    }
+
     protected function beforePrepare(): bool
     {
         $this->joinElementTable(Event::TABLE_STD);
