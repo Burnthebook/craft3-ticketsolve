@@ -26,3 +26,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 1.1.2 - 2020-01-22
 ### Added
 - Migration for updating Shows field namespace
+
+## 1.2.0 - 2020-01-24
+### Added
+- Ability to filter events by dateTime, openingTime and onSaleTime
+- Ability to filter shows by eventDateTime, eventOpeningTime and eventOnSaleTime
+- Ability to order events by dateTime, openingTime and onSaleTime
+- Ability to order shows by eventDateTime

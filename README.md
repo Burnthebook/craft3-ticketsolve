@@ -99,6 +99,10 @@ Venue elements have the following properties:
 - `venueId()` - Filter results by venueId. Note this is different from Ticketsolve's Venue ID. Accepts an integer.
 - `excludeShowRefs()` - Exclude certain showRefs from the results. Accepts an array of integers.
 - `tags()` - Filter results by certain tags. Accepts an array of strings (tag names).
+- `eventDateTime()` - Filter results by their events' dateTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `eventOpeningTime()` - Filter results by their events' openingTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `eventOnSaleTime()` - Filter results by their events' onSaleTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `orderBy()` - Supports most of the Show's properties, as well as `eventDateTime`, `eventOpeningTime` and `eventOnSaleTime`
 
 #### Properties
 
@@ -149,6 +153,10 @@ Show elements have the following properties:
 - `eventStatus()` - Filter results by event status. Accepts a string.
 - `showId()` - Filter results by showId. Note this is different from Ticketsolve's Show ID. Accepts an integer.
 - `excludeEventRefs()` - Exclude certain eventRefs from the results. Accepts an array of integers.
+- `dateTime()` - Filter results by dateTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `openingTime()` - Filter results by openingTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `onSaleTime()` - Filter results by onSaleTime. (See Craft's documentation for [Date/Time Fields](https://docs.craftcms.com/v3/date-time-fields.html))
+- `orderBy()` - Supports most of the Event's properties, including `dateTime`, `openingTime`, `onSaleTime`
 
 #### Properties
 
