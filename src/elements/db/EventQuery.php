@@ -21,6 +21,9 @@ class EventQuery extends ElementQuery
     public $eventStatus;
     public $showId;
     public $excludeEventRefs = [];
+    public $dateTime;
+    public $openingTime;
+    public $onSaleTime;
 
     public function eventRef($value)
     {
@@ -53,6 +56,27 @@ class EventQuery extends ElementQuery
     public function excludeEventRefs(array $eventRefs)
     {
         $this->excludeEventRefs = $eventRefs;
+
+        return $this;
+    }
+
+    public function dateTime($value)
+    {
+        $this->dateTime = $value;
+
+        return $this;
+    }
+
+    public function openingTime($value)
+    {
+        $this->openingTime = $value;
+
+        return $this;
+    }
+
+    public function onSaleTime($value)
+    {
+        $this->onSaleTime = $value;
 
         return $this;
     }
@@ -129,6 +153,18 @@ class EventQuery extends ElementQuery
 
         if ($this->excludeEventRefs) {
             $this->subQuery->andWhere(['not in', Event::TABLE_STD . '.eventRef', $this->excludeEventRefs]);
+        }
+
+        if ($this->dateTime) {
+            $this->subQuery->andWhere(Db::parseDateParam(Event::TABLE_STD . '.dateTimeString', $this->dateTime));
+        }
+
+        if ($this->openingTime) {
+            $this->subQuery->andWhere(Db::parseDateParam(Event::TABLE_STD . '.openingTimeString', $this->openingTime));
+        }
+
+        if ($this->onSaleTime) {
+            $this->subQuery->andWhere(Db::parseDateParam(Event::TABLE_STD . '.onSaleTimeString', $this->onSaleTime));
         }
 
         return parent::beforePrepare();
