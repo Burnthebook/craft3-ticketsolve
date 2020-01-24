@@ -27,6 +27,9 @@ class ShowQuery extends ElementQuery
     public $venueId;
     public $excludeShowRefs = [];
     public $tags = [];
+    public $eventDateTime;
+    public $eventOpeningTime;
+    public $eventOnSaleTime;
 
     public function showRef($value)
     {
@@ -77,6 +80,27 @@ class ShowQuery extends ElementQuery
         return $this;
     }
 
+    public function eventDateTime($value)
+    {
+        $this->eventDateTime = $value;
+
+        return $this;
+    }
+
+    public function eventOpeningTime($value)
+    {
+        $this->eventOpeningTime = $value;
+
+        return $this;
+    }
+
+    public function eventOnSaleTime($value)
+    {
+        $this->eventOnSaleTime = $value;
+
+        return $this;
+    }
+
     protected function beforePrepare(): bool
     {
         $this->joinElementTable(Show::TABLE_STD);
@@ -92,8 +116,7 @@ class ShowQuery extends ElementQuery
             Show::TABLE_STD . '.url',
             Show::TABLE_STD . '.version',
             Show::TABLE_STD . '.imagesJson',
-            'min(' . Event::TABLE_STD . '.dateTimeString) as nextEventDate',
-            Event::TABLE_STD . '.id as nextEventId'
+            'min(' . Event::TABLE_STD . '.dateTimeString) as eventDateTime'
         ]);
 
         $this->query->leftJoin(
@@ -152,12 +175,39 @@ class ShowQuery extends ElementQuery
             ]);
         }
 
+        $eventDateFilters = [
+            'eventDateTime' => 'dateTimeString',
+            'eventOpeningTime' => 'openingTimeString',
+            'eventOnSaleTime' => 'onSaleTimeString',
+        ];
+
+        foreach ($eventDateFilters as $filterName => $filterColumn) {
+            if (!$this->$filterName) {
+                continue;
+            }
+
+            $this->query->andWhere(Db::parseDateParam(Event::TABLE_STD . '.' . $filterColumn, $this->$filterName));
+
+            $this->subQuery->andWhere([
+                'exists',
+                (new Query())
+                    ->select('id')
+                    ->from(Event::TABLE)
+                    ->where([
+                        'and',
+                        Event::TABLE . '.showId = ' . Show::TABLE_STD . '.id',
+                        Db::parseDateParam(Event::TABLE . '.' . $filterColumn, $this->$filterName)
+                    ])
+                    ->limit(1)
+            ]);
+        }
+
         return parent::beforePrepare();
     }
 
     protected function afterPrepare(): bool
     {
-        $removeSubqueryOrderBy = ['nextEventDate', 'nextEventId'];
+        $removeSubqueryOrderBy = ['eventDateTime'];
 
         if (is_array($this->subQuery->orderBy)) {
             foreach ($removeSubqueryOrderBy as $column) {
