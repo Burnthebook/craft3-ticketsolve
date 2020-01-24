@@ -10,6 +10,7 @@
 
 namespace burnthebook\ticketsolve\elements\db;
 
+use burnthebook\ticketsolve\elements\Event;
 use craft\db\Query;
 use craft\elements\db\ElementQuery;
 use craft\helpers\Db;
@@ -91,7 +92,16 @@ class ShowQuery extends ElementQuery
             Show::TABLE_STD . '.url',
             Show::TABLE_STD . '.version',
             Show::TABLE_STD . '.imagesJson',
+            'min(' . Event::TABLE_STD . '.dateTimeString) as nextEventDate',
+            Event::TABLE_STD . '.id as nextEventId'
         ]);
+
+        $this->query->leftJoin(
+            Event::TABLE . ' ' . Event::TABLE_STD,
+            Event::TABLE_STD . '.showId = ' . Show::TABLE_STD . '.id'
+        );
+
+        $this->groupBy = [Show::TABLE_STD . '.id'];
 
         if ($this->showRef) {
             $this->subQuery->andWhere(Db::parseParam(Show::TABLE_STD . '.showRef', $this->showRef));
@@ -143,5 +153,18 @@ class ShowQuery extends ElementQuery
         }
 
         return parent::beforePrepare();
+    }
+
+    protected function afterPrepare(): bool
+    {
+        $removeSubqueryOrderBy = ['nextEventDate', 'nextEventId'];
+
+        if (is_array($this->subQuery->orderBy)) {
+            foreach ($removeSubqueryOrderBy as $column) {
+                unset($this->subQuery->orderBy[$column]);
+            }
+        }
+
+        return parent::afterPrepare();
     }
 }
