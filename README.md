@@ -18,6 +18,9 @@ This plugin requires:
 
 - Craft CMS 3.0.0-beta.23 or later;
 - SimpleXML extension for PHP;
+- Disabled `ONLY_FULL_GROUP_BY` mode in MySQL e.g. with:
+
+    `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
 
 ## Installation
 
