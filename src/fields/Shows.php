@@ -11,8 +11,10 @@
 namespace burnthebook\ticketsolve\fields;
 
 use Craft;
+use craft\base\Element;
 use craft\fields\BaseRelationField;
 use burnthebook\ticketsolve\elements\Show;
+use burnthebook\ticketsolve\validators\ElementCountValidator;
 
 /**
  * @author    Dimitar Kokov
@@ -40,5 +42,25 @@ class Shows extends BaseRelationField
     public static function defaultSelectionLabel(): string
     {
         return \Craft::t('ticketsolve', 'Add a show');
+    }
+
+    public function getElementValidationRules(): array
+    {
+        $rules = [
+            [
+                ElementCountValidator::class,
+                'max' => $this->allowLimit && $this->limit ? $this->limit : null,
+                'tooMany' => Craft::t(
+                    'app',
+                    '{attribute} should contain at most {max, number} {max, plural, one{selection} other{selections}}.'
+                ),
+            ],
+        ];
+
+        if ($this->validateRelatedElements) {
+            $rules[] = ['validateRelatedElements', 'on' => [Element::SCENARIO_LIVE]];
+        }
+
+        return $rules;
     }
 }
