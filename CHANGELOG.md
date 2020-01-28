@@ -33,3 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Ability to filter shows by eventDateTime, eventOpeningTime and eventOnSaleTime
 - Ability to order events by dateTime, openingTime and onSaleTime
 - Ability to order shows by eventDateTime
+
+## 1.2.1 - 2020-01-28
+### Fixed
+- Fixed a bug where Craft was wrongly counting the number of selected elements in a Shows field
