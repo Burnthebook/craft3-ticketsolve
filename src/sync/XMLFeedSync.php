@@ -64,6 +64,8 @@ class XMLFeedSync
      */
     public function start()
     {
+    	set_time_limit(600);
+
         echo "Starting sync from XML feed ... \n";
 
         if (empty($this->feedUrl)) {
