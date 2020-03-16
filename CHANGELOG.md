@@ -37,3 +37,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 1.2.1 - 2020-01-28
 ### Fixed
 - Fixed a bug where Craft was wrongly counting the number of selected elements in a Shows field
+
+## 1.2.2 - 2020-03-16
+### Added
+- Added a ten minute timeout using `set_time_limit(600)`
