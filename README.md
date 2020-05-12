@@ -46,6 +46,9 @@ If using AutoSync, note that the initial sync will happen 15 minutes after enabl
 
 To trigger the sync manually, go in Control Panel → Ticketsolve and click the "Sync Now" button.
 
+In order to not hit the rate limit of Ticketsolve a limit of 250 API calls per import has been set. Shows will be 
+imported in blocks of 250 until all have been imported. Then the cycle starts again.
+
 ## Shows Field
 
 The plugin adds a new relationship field type called "Ticketsolve Shows". It allows you to add Shows to your entries in Craft.
