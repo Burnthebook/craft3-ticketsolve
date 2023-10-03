@@ -12,6 +12,7 @@ namespace burnthebook\ticketsolve;
 
 use Craft;
 use craft\base\Plugin;
+use craft\base\Model;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
@@ -72,7 +73,7 @@ class Ticketsolve extends Plugin
     /**
      * @return Settings
      */
-    public function getSettings()
+    public function getSettings() : ?Model
     {
         return parent::getSettings();
     }
