@@ -176,7 +176,7 @@ class Ticketsolve extends Plugin
         );
     }
 
-    public function getCpNavItem()
+    public function getCpNavItem() : ?array
     {
         $item = parent::getCpNavItem();
         $item['subnav'] = [
