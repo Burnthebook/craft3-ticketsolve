@@ -64,7 +64,7 @@ class Ticketsolve extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.0.0';
 
     // Public Methods
     // =========================================================================
@@ -192,7 +192,7 @@ class Ticketsolve extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel() :? Settings
     {
         return new Settings();
     }
@@ -203,7 +203,7 @@ class Ticketsolve extends Plugin
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function settingsHtml(): string
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->view->renderTemplate(
             'ticketsolve/settings',
