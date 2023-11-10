@@ -23,8 +23,8 @@ use burnthebook\ticketsolve\elements\db\EventQuery;
  */
 class Event extends AbstractComparableElement
 {
-    const TABLE     = '{{%ticketsolve_events}}';
-    const TABLE_STD = 'ticketsolve_events';
+    public const TABLE     = '{{%ticketsolve_events}}';
+    public const TABLE_STD = 'ticketsolve_events';
 
     // Public Properties
     // =========================================================================
@@ -176,7 +176,7 @@ class Event extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name'], 'string'],
@@ -239,7 +239,7 @@ class Event extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterSave(bool $isNew)
+    public function afterSave(bool $isNew): void
     {
         $data = [
             'showId' => $this->showId,
@@ -286,7 +286,7 @@ class Event extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterDelete()
+    public function afterDelete(): void
     {
     }
 
@@ -301,7 +301,7 @@ class Event extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterMoveInStructure(int $structureId)
+    public function afterMoveInStructure(int $structureId): void
     {
     }
 }

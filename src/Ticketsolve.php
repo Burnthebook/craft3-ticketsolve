@@ -64,7 +64,7 @@ class Ticketsolve extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.0.0';
 
     // Public Methods
     // =========================================================================
@@ -72,7 +72,7 @@ class Ticketsolve extends Plugin
     /**
      * @return Settings
      */
-    public function getSettings()
+    public function getSettings(): ?craft\base\Model
     {
         return parent::getSettings();
     }
@@ -175,7 +175,7 @@ class Ticketsolve extends Plugin
         );
     }
 
-    public function getCpNavItem()
+    public function getCpNavItem(): ?array
     {
         $item = parent::getCpNavItem();
         $item['subnav'] = [
@@ -192,7 +192,7 @@ class Ticketsolve extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?craft\base\Model
     {
         return new Settings();
     }

@@ -19,7 +19,7 @@ use burnthebook\ticketsolve\records\TagIndexRecord;
 
 class Install extends Migration
 {
-    const TABLE_ELEMENTS = '{{%elements}}';
+    public const TABLE_ELEMENTS = '{{%elements}}';
 
     public function safeUp()
     {

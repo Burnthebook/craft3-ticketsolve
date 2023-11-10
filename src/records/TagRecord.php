@@ -19,8 +19,8 @@ use burnthebook\ticketsolve\models\TagModel;
  */
 class TagRecord extends ActiveRecord
 {
-    const TABLE     = '{{%ticketsolve_tags}}';
-    const TABLE_STD = 'ticketsolve_tags';
+    public const TABLE     = '{{%ticketsolve_tags}}';
+    public const TABLE_STD = 'ticketsolve_tags';
 
     /**
      * @return string

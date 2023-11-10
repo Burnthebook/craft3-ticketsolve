@@ -24,8 +24,8 @@ use burnthebook\ticketsolve\Ticketsolve;
  */
 class Show extends AbstractComparableElement
 {
-    const TABLE     = '{{%ticketsolve_shows}}';
-    const TABLE_STD = 'ticketsolve_shows';
+    public const TABLE     = '{{%ticketsolve_shows}}';
+    public const TABLE_STD = 'ticketsolve_shows';
 
     // Public Properties
     // =========================================================================
@@ -143,7 +143,7 @@ class Show extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name'], 'string'],
@@ -210,7 +210,7 @@ class Show extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterSave(bool $isNew)
+    public function afterSave(bool $isNew): void
     {
         $data = [
             'venueId' => $this->venueId,
@@ -250,7 +250,7 @@ class Show extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterDelete()
+    public function afterDelete(): void
     {
     }
 
@@ -265,7 +265,7 @@ class Show extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterMoveInStructure(int $structureId)
+    public function afterMoveInStructure(int $structureId): void
     {
     }
 }

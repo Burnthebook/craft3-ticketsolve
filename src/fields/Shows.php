@@ -34,7 +34,7 @@ class Shows extends BaseRelationField
         return Craft::t('ticketsolve', 'Ticketsolve Shows');
     }
 
-    protected static function elementType(): string
+    public static function elementType(): string
     {
         return Show::class;
     }

@@ -81,7 +81,7 @@ class EventQuery extends ElementQuery
         return $this;
     }
 
-    public function orderBy($columns)
+    public function orderBy($columns): self
     {
         parent::orderBy($columns);
 

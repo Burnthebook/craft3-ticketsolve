@@ -34,7 +34,7 @@ class SyncJob extends BaseJob
      * @inheritDoc
      * @throws Throwable
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
         $job = $this;
 

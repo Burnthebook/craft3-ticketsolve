@@ -22,8 +22,8 @@ use burnthebook\ticketsolve\elements\db\VenueQuery;
  */
 class Venue extends AbstractComparableElement
 {
-    const TABLE     = '{{%ticketsolve_venues}}';
-    const TABLE_STD = 'ticketsolve_venues';
+    public const TABLE     = '{{%ticketsolve_venues}}';
+    public const TABLE_STD = 'ticketsolve_venues';
 
     // Public Properties
     // =========================================================================
@@ -99,7 +99,7 @@ class Venue extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name'], 'string'],
@@ -138,7 +138,7 @@ class Venue extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterSave(bool $isNew)
+    public function afterSave(bool $isNew): void
     {
         $data = [
             'venueRef' => $this->venueRef,
@@ -170,7 +170,7 @@ class Venue extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterDelete()
+    public function afterDelete(): void
     {
     }
 
@@ -185,7 +185,7 @@ class Venue extends AbstractComparableElement
     /**
      * @inheritdoc
      */
-    public function afterMoveInStructure(int $structureId)
+    public function afterMoveInStructure(int $structureId): void
     {
     }
 }

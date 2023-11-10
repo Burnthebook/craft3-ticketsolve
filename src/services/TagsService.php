@@ -35,7 +35,7 @@ class TagsService extends Component
      * @param string $tagName
      * @return TagModel|bool
      */
-    public function createTag(string $tagName)
+    public function createTag(string $tagName): bool|TagModel
     {
         $record = new TagRecord();
         $record->name = $tagName;
@@ -62,7 +62,7 @@ class TagsService extends Component
      * @param $id
      * @return TagModel|null
      */
-    public function getTagById($id)
+    public function getTagById($id): ?TagModel
     {
         if (isset(self::$tagsCacheById[$id])) {
             return self::$tagsCacheById[$id];
@@ -85,7 +85,7 @@ class TagsService extends Component
      * @param $name
      * @return TagModel|null
      */
-    public function getTagByName($name)
+    public function getTagByName($name): ?TagModel
     {
         if (isset(self::$tagsCacheByName[$name])) {
             return self::$tagsCacheByName[$name];
@@ -108,7 +108,7 @@ class TagsService extends Component
      * @param int $id
      * @return bool
      */
-    public function deleteTagById($id)
+    public function deleteTagById($id): bool
     {
         return (bool) TagRecord::deleteAll(['id' => $id]);
     }
@@ -117,7 +117,7 @@ class TagsService extends Component
      * @param string $name
      * @return bool
      */
-    public function deleteTagByName($name)
+    public function deleteTagByName($name): bool
     {
         return (bool) TagRecord::deleteAll(['name' => $name]);
     }
@@ -125,7 +125,7 @@ class TagsService extends Component
     /**
      * @param Show $show
      * @param bool $strings Whether to return an array of strings or an array of TagModel objects
-     * @return string[]|TagModel[]
+     * @return array
      */
     public function getTagsFromShow(Show $show, $strings = true): array
     {
@@ -145,7 +145,7 @@ class TagsService extends Component
      * @param array $tagNames
      * @return int Number of added tags
      */
-    public function tagShow(Show $show, array $tagNames)
+    public function tagShow(Show $show, array $tagNames): int
     {
         $tagsAdded = 0;
 
@@ -183,7 +183,7 @@ class TagsService extends Component
      * @param array $tagNames
      * @return int Number of removed tags
      */
-    public function untagShow(Show $show, array $tagNames)
+    public function untagShow(Show $show, array $tagNames): int
     {
         $tagIds = [];
 
@@ -208,7 +208,7 @@ class TagsService extends Component
      * @param array $tagNames
      * @return int Number of deleted tags
      */
-    public function deleteAllTagsExcept(array $tagNames)
+    public function deleteAllTagsExcept(array $tagNames): int
     {
         return TagRecord::deleteAll(['not in', 'name', $tagNames]);
     }

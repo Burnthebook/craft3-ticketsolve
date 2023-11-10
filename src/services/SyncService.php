@@ -42,7 +42,7 @@ class SyncService extends Component
      * @param bool $includeManualSyncJobs
      * @return array
      */
-    public function getQueuedSyncJobs($includeManualSyncJobs = false)
+    public function getQueuedSyncJobs($includeManualSyncJobs = false): array
     {
         $query = (new Query())
             ->from(Table::QUEUE)

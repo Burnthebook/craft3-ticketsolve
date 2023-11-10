@@ -41,3 +41,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 1.2.2 - 2020-03-16
 ### Added
 - Added a ten minute timeout using `set_time_limit(600)`
+
+## 2.0.0 - 2023-11-10
+- Craft 4 - initial compatibility

@@ -19,8 +19,8 @@ use craft\db\ActiveRecord;
  */
 class TagIndexRecord extends ActiveRecord
 {
-    const TABLE     = '{{%ticketsolve_tags_index}}';
-    const TABLE_STD = 'ticketsolve_tags_index';
+    public const TABLE     = '{{%ticketsolve_tags_index}}';
+    public const TABLE_STD = 'ticketsolve_tags_index';
 
     /**
      * @return string
