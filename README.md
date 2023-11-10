@@ -16,7 +16,7 @@ NOTE: This is not an official Ticketsolve plugin.
 
 This plugin requires [PHP](https://www.php.net/) 7.4 - 8.2 and supports [Craft CMS](https://www.craftcms.com/) 3.x and 4.x.
 
-| OS Maps  | Craft 3            | Craft 4            |
+| Craft Ticketsolve  | Craft 3            | Craft 4            |
 |----------|--------------------|--------------------|
 | 1.x      | :white_check_mark: | :x:                |
 | 2.x      | :x:                | :white_check_mark: |
