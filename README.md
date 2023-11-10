@@ -1,4 +1,4 @@
-# Ticketsolve plugin for Craft CMS 3.x
+# Ticketsolve plugin for Craft CMS 3.x and 4.x
 
 This plugin will pull Venues, Shows and Events from a Ticketsolve XML feed and store them for easy access in your Craft website.
 
@@ -244,7 +244,7 @@ Simply clone the repository into a directory above your CraftCMS website, then a
   ```
 
   Change the version in your require block to your new version, e.g.
-  
+
   ```
     "burnthebook/craft3-ticketsolve": "dev-master",
   ```
