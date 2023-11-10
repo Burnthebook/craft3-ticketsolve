@@ -227,6 +227,28 @@ For more robust syncing, you can disable Auto Sync in the plugin settings and tr
 
     craft ticketsolve/feed/sync
 
+## Local Development
+
+Simply clone the repository into a directory above your CraftCMS website, then add the following to your composer.json:
+
+```
+  "repositories": {
+    "craft3-ticketsolve": {
+      "type": "path",
+      "url": "../craft3-ticketsolve",
+      "options": {
+        "symlink": true
+      }
+    }
+  },
+  ```
+
+  Change the version in your require block to your new version, e.g.
+  
+  ```
+    "burnthebook/craft3-ticketsolve": "dev-master",
+  ```
+
 ---
 
 Brought to you by [Burnthebook](https://www.burnthebook.co.uk)
