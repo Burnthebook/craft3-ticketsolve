@@ -48,3 +48,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.1 - 2023-11-16
 - Fix PHP error `Getting unknown property: burnthebook\ticketsolve\fields\Shows::limit`
 -- [limit seems to have changed to branchLimit](https://docs.craftcms.com/api/v4/craft-fields-baserelationfield.html#public-properties)
+
+## 2.0.2 - 2023-11-16
+- Updates ElementCountValidator
