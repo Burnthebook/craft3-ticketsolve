@@ -20,10 +20,6 @@ class ElementCountValidator extends ArrayValidator
      */
     protected function validateValue($value): ?array
     {
-        if (!$value instanceof \Countable && !is_array($value)) {
-            return [$this->message, []];
-        }
-
         if ($value instanceof ElementQuery) {
             $value->createCommand();
             $count = $value->count();
