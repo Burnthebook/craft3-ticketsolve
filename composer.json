@@ -2,7 +2,7 @@
     "name": "burnthebook/craft3-ticketsolve",
     "description": "Pulls venues, shows and events from a Ticketsolve XML feed and keeps your website in sync.",
     "type": "craft-plugin",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "keywords": [
         "craft",
         "cms",
@@ -15,8 +15,7 @@
         "issues": "https://github.com/Burnthebook/craft3-ticketsolve/issues"
     },
     "license": "MIT",
-    "authors": [
-        {
+    "authors": [{
             "name": "Dimitar Kokov",
             "homepage": "https://github.com/Burnthebook"
         },

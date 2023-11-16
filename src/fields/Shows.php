@@ -49,7 +49,7 @@ class Shows extends BaseRelationField
         $rules = [
             [
                 ElementCountValidator::class,
-                'max' => $this->allowLimit && $this->limit ? $this->limit : null,
+                'max' => $this->allowLimit && $this->branchLimit ? $this->branchLimit : null,
                 'tooMany' => Craft::t(
                     'app',
                     '{attribute} should contain at most {max, number} {max, plural, one{selection} other{selections}}.'
